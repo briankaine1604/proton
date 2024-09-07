@@ -5,6 +5,7 @@ import { z } from "zod";
 import { ProjectSchema } from "../../[projectId]/components/form";
 import { Decimal } from "@prisma/client/runtime/library";
 import { slugify } from "@/components/slug";
+import { UserRole } from "@prisma/client";
 
 // Slugify function to generate a URL-friendly slug
 
@@ -14,6 +15,11 @@ export async function CreateProject(values: z.infer<typeof ProjectSchema>) {
   if (!user?.id) {
     return { error: "Not authenticated!" };
   }
+  // Check if the user has admin privileges
+  if (user.role !== UserRole.ADMIN && user.role !== UserRole.STAFF) {
+    return { error: "Only admins or staff can create projects" };
+  }
+
   const { name, price, description, address, inStock, images } = values;
 
   try {

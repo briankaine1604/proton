@@ -1,9 +1,8 @@
 import axios from "axios";
 import { BlogPost } from "@/types";
 
-const URL = `${
-  process.env.NEXT_PUBLIC_API_URL! || "http://localhost:3000"
-}/api/blogs`;
+// Use a relative URL for the API endpoint
+const URL = "/api/blogs";
 
 export const getNewsArticles = async (): Promise<BlogPost[]> => {
   try {

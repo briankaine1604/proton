@@ -1,18 +1,17 @@
+import { AlertModal } from "@/components/modals/alert-modal";
+import { Button } from "@/components/ui/button";
 import {
   DropdownMenu,
-  DropdownMenuTrigger,
   DropdownMenuContent,
   DropdownMenuItem,
   DropdownMenuLabel,
+  DropdownMenuTrigger,
 } from "@/components/ui/dropdown-menu";
-import { Button } from "@/components/ui/button";
-import { Copy, Delete, Edit, MoreHorizontal, Trash } from "lucide-react";
-import { useParams, useRouter } from "next/navigation";
 import axios from "axios";
+import { Copy, Edit, MoreHorizontal, Trash } from "lucide-react";
+import { useParams, useRouter } from "next/navigation";
 import { useState, useTransition } from "react";
-import { AlertModal } from "@/components/modals/alert-modal";
 import { toast } from "sonner";
-import { DeleteBlog } from "./server/delete-blog";
 import { TeamColumn } from "./columns";
 
 interface CellActionProps {

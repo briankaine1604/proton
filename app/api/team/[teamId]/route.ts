@@ -1,15 +1,17 @@
+import { currentUser } from "@/hooks/use-current-user-server";
 import { db } from "@/lib/db";
+import { UserRole } from "@prisma/client";
 import { NextRequest, NextResponse } from "next/server";
 
 export async function GET(
   req: NextRequest,
-  { params }: { params: { id: string } }
+  { params }: { params: { teamId: string } }
 ) {
-  const { id } = params;
+  const { teamId } = params;
 
   try {
     const teamMember = await db.teamMember.findUnique({
-      where: { id },
+      where: { id: teamId },
       select: {
         id: true,
         name: true,
@@ -30,7 +32,7 @@ export async function GET(
 
     return NextResponse.json(teamMember, { status: 200 });
   } catch (error) {
-    console.error(`Failed to fetch team member with id ${id}`, error);
+    console.error(`Failed to fetch team member`);
     return NextResponse.json(
       { error: "Failed to fetch team member" },
       { status: 500 }
@@ -40,14 +42,25 @@ export async function GET(
 
 export async function PATCH(
   req: NextRequest,
-  { params }: { params: { id: string } }
+  { params }: { params: { teamId: string } }
 ) {
-  const { id } = params;
+  const { teamId } = params;
   const { name, bio, image, role } = await req.json();
+  const user = await currentUser();
+  if (!user?.id) {
+    return NextResponse.json({ error: "Not authenticated!" }, { status: 401 });
+  }
+  // Check if the user has admin privileges
+  if (user.role !== UserRole.ADMIN && user.role !== UserRole.STAFF) {
+    return NextResponse.json(
+      { error: "Only admins or staff can update status" },
+      { status: 403 }
+    );
+  }
 
   try {
     const updatedTeamMember = await db.teamMember.update({
-      where: { id },
+      where: { id: teamId },
       data: {
         name,
         bio,
@@ -58,7 +71,7 @@ export async function PATCH(
 
     return NextResponse.json(updatedTeamMember, { status: 200 });
   } catch (error) {
-    console.error(`Failed to update team member with id ${id}`, error);
+    console.error(`Failed to update team member`, error);
     return NextResponse.json(
       { error: "Failed to update team member" },
       { status: 500 }
@@ -68,13 +81,24 @@ export async function PATCH(
 
 export async function DELETE(
   req: NextRequest,
-  { params }: { params: { id: string } }
+  { params }: { params: { teamId: string } }
 ) {
-  const { id } = params;
+  const { teamId } = params;
+  const user = await currentUser();
+  if (!user?.id) {
+    return NextResponse.json({ error: "Not authenticated!" }, { status: 401 });
+  }
+  // Check if the user has admin privileges
+  if (user.role !== UserRole.ADMIN && user.role !== UserRole.STAFF) {
+    return NextResponse.json(
+      { error: "Only admins or staff can update status" },
+      { status: 403 }
+    );
+  }
 
   try {
     await db.teamMember.delete({
-      where: { id },
+      where: { id: teamId },
     });
 
     return NextResponse.json(
@@ -82,7 +106,7 @@ export async function DELETE(
       { status: 200 }
     );
   } catch (error) {
-    console.error(`Failed to delete team member with id ${id}`, error);
+    console.error(`Failed to delete team member`, error);
     return NextResponse.json(
       { error: "Failed to delete team member" },
       { status: 500 }

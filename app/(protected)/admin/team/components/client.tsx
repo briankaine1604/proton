@@ -21,7 +21,7 @@ export const TeamClient: React.FC<TeamClientProps> = ({ data }) => {
       <Container>
         <PathTrail />
         <div className="flex justify-between">
-          <h1 className=" text-3xl font-semibold">Team members</h1>
+          <h1 className=" text-xl sm:text-3xl  font-semibold">Team members</h1>
           <Button onClick={() => router.push(`/admin/team/new`)}>
             <Plus className="mr-2 w-4 h-4" />
             Add new{" "}

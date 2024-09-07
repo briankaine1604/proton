@@ -5,7 +5,6 @@ import { CellAction } from "./cell-action";
 import Image from "next/image";
 import { Switch } from "@/components/ui/switch";
 import { useState, useTransition } from "react";
-import { updateBlogPublishedStatus } from "./server/publishedstatus";
 import { toast } from "sonner";
 // Adjust the import path accordingly
 

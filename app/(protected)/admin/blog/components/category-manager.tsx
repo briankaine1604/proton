@@ -35,7 +35,7 @@ const CategoryManager: React.FC<CategoryManagerProps> = ({
       <p className=" text-sm mb-3 text-gray-500">
         Ensure the category is no longer in use before deleting.
       </p>
-      <div className="flex gap-5 flex-wrap">
+      <div className="flex gap-5 flex-wrap text-sm font-semibold">
         {categories.map((category) => (
           <div
             key={category.value}

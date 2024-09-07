@@ -6,7 +6,7 @@ const Page = async () => {
   const projects = await getProjects();
 
   return (
-    <main className="h-full w-full min-h-screen pt-10 bg-gradient-to-b via-[#f7f8fa] to-white from-[#e2e8f0] pb-10">
+    <main className="h-full w-full min-h-screen pt-20 bg-gradient-to-b via-[#f7f8fa] to-white from-[#e2e8f0] pb-10">
       <Container>
         <div className="mb-14 text-center">
           <h1 className="text-5xl font-bold text-gray-900 mt-5">

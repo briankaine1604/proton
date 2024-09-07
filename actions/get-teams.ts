@@ -1,12 +1,11 @@
 import { Project, Team } from "@/types";
 import axios from "axios";
 
-const URL = `${
-  process.env.NEXT_PUBLIC_API_URL! || "http://localhost:3000"
-}/api/team`;
+// Use a relative URL for the API endpoint
+const URL = "/api/team";
 
 export const getTeams = async (): Promise<Team[]> => {
-  const res = await axios.get(`${URL}`);
-  console.log(res.data);
+  const res = await axios.get(URL);
+
   return res.data;
 };

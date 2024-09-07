@@ -8,12 +8,14 @@ import NavLinks from "./NavLinks";
 import { Button } from "./ui/button";
 import Link from "next/link";
 import { useRouter } from "next/navigation";
+import { getNews } from "@/actions/get-news";
+import { News } from "@/types";
 
-type Props = {};
-
-export default function Navbar({}: Props) {
+export default function Navbar() {
   const [isScrolled, setIsScrolled] = useState(false);
   const [announcementVisible, setAnnouncementVisible] = useState(true);
+  const [news, setNews] = useState<News | null>(null);
+  const [loading, setLoading] = useState(true);
   const router = useRouter();
 
   useEffect(() => {
@@ -32,17 +34,46 @@ export default function Navbar({}: Props) {
     };
   }, []);
 
+  useEffect(() => {
+    const fetchNews = async () => {
+      try {
+        const newsData = await getNews();
+        if (newsData.length > 0) {
+          setNews(newsData[0]); // Show the first news item
+        }
+      } catch (error) {
+        console.error("Failed to fetch news", error);
+      } finally {
+        setLoading(false);
+      }
+    };
+
+    fetchNews();
+  }, []);
+
   return (
     <>
       {announcementVisible && (
-        <div className="bg-[#820001]/70 text-white text-center py-2 px-4 w-full flex justify-center fixed top-0 z-50 backdrop-filter backdrop-blur-lg bg-opacity-40">
+        <div className="bg-[#820001]/70 text-white text-center py-2 px-4 w-full flex justify-center fixed top-0 z-50 backdrop-filter backdrop-blur-lg bg-opacity-40 h-14">
           <div className="flex justify-between items-center max-w-screen-xl mx-auto gap-x-2">
-            <p className="text-sm">
-              📢 Exciting Offer: Get 10% off on your first property purchase!{" "}
-              <a href="#" className="underline font-semibold">
-                Learn More
-              </a>
-            </p>
+            {loading ? (
+              <div className="h-5 w-full animate-pulse max-w-xs bg-gray-300 rounded-md z-60" />
+            ) : (
+              <p className="text-sm">
+                📢 {news?.content}{" "}
+                {news?.link && (
+                  <a
+                    href={news.link}
+                    className="underline font-semibold"
+                    target="_blank"
+                    rel="noopener noreferrer"
+                  >
+                    Learn More
+                  </a>
+                )}
+              </p>
+            )}
+
             <button
               onClick={() => setAnnouncementVisible(false)}
               aria-label="Close announcement"
@@ -54,8 +85,8 @@ export default function Navbar({}: Props) {
         </div>
       )}
       <nav
-        className={`h-16 fixed w-full ${
-          announcementVisible ? "top-10" : "top-0"
+        className={`h-16 py-2 items-center flex fixed w-full ${
+          announcementVisible ? "top-14" : "top-0"
         } z-40 transition-shadow duration-300 bg-[#e2e8f0] 
         ${isScrolled ? " border-b border-black/10 shadow-sm" : ""}
       `}
@@ -79,8 +110,10 @@ export default function Navbar({}: Props) {
             <MobileNav />
           </div>
           <div className="hidden lg:flex">
-            <Button onClick={() => router.push("/contact")}>
-              <span>Contact Us</span>
+            <Button>
+              <Link href={"/contact"}>
+                <span>Contact Us</span>
+              </Link>
             </Button>
           </div>
         </Container>

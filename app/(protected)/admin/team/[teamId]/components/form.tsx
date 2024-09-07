@@ -36,6 +36,7 @@ export const TeamMemberForm = ({
   initialData,
 }: {
   initialData?: {
+    id: string;
     name: string;
     bio?: string | null;
     image?: string;
@@ -70,9 +71,17 @@ export const TeamMemberForm = ({
 
   const handleFormSubmit = async (data: z.infer<typeof TeamMemberSchema>) => {
     setIsLoading(true);
+
     try {
-      await axios.post("/api/team", { ...data, image });
-      toast.success("Team member saved successfully");
+      // Check if there is an ID in the data to determine if it's an update (PATCH) or a new entry (POST)
+      if (initialData) {
+        await axios.patch(`/api/team/${initialData.id}`, data);
+        toast.success("Team member updated successfully");
+      } else {
+        await axios.post("/api/team", data);
+        toast.success("Team member saved successfully");
+      }
+
       router.push("/admin/team");
       router.refresh();
     } catch (error) {

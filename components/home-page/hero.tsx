@@ -144,7 +144,7 @@ export function Hero({}: Props) {
           </motion.h2>
           <motion.p
             variants={textVariantScale}
-            className="text-2xl text-black/80 max-w-2xl mt-4"
+            className="text-xl md:text-2xl text-black/80 max-w-2xl mt-4"
           >
             We lead in innovative property development, creating exceptional
             spaces that define modern living. Discover our visionary projects

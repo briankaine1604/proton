@@ -4,6 +4,7 @@ import Link from "next/link";
 import React from "react";
 import { Badge } from "./ui/badge";
 import { Project } from "@/types";
+import { Button } from "./ui/button";
 
 const ProjectCard: React.FC<{ project: Project }> = ({ project }) => {
   return (
@@ -28,14 +29,15 @@ const ProjectCard: React.FC<{ project: Project }> = ({ project }) => {
           >
             {project.inStock ? "In Stock" : "Sold Out"}
           </Badge>
+
           <Link
             href={`/projects/${project.slug}`}
-            className="inline-flex items-center text-gray-800 group:transition "
+            className="inline-flex items-center text-gray-800 group:transition text-sm"
           >
             <span className="mr-2 ">View Details</span>
             <ArrowRight
               size={24}
-              className="text-[#820001] group-hover:text-[#820001]/80 opacity-0 group-hover:opacity-100 transition-opacity duration-300"
+              className="group-hover:text-[#820001]/80 opacity-0 group-hover:opacity-100 transition-opacity duration-300"
             />
           </Link>
         </div>

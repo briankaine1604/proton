@@ -21,7 +21,7 @@ export const ContactClient: React.FC<ContactClientProps> = ({ data }) => {
       <Container>
         <PathTrail />
         <div className="flex justify-between">
-          <h1 className=" text-3xl font-semibold">Contacts</h1>
+          <h1 className=" text-xl sm:text-3xl  font-semibold">Contacts</h1>
         </div>
 
         <Separator className=" my-2" />

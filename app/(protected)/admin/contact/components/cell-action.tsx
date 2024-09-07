@@ -44,9 +44,35 @@ export const CellAction: React.FC<CellActionProps> = ({ data }) => {
       }
     }
   };
+  const onDelete = async () => {
+    try {
+      setIsLoading(true);
+
+      const response = await axios.delete(`/api/contact/${data.id}`);
+
+      if (response.status === 200) {
+        toast.success("Contactdeleted");
+      } else {
+        toast.error("Failed to contact link");
+      }
+    } catch (error) {
+      toast.error("Something went wrong");
+    } finally {
+      setIsLoading(false);
+      setOpen(false);
+
+      router.refresh();
+    }
+  };
 
   return (
     <>
+      <AlertModal
+        isOpen={open}
+        isLoading={isLoading}
+        onClose={() => setOpen(false)}
+        onConfirm={onDelete}
+      />
       <DropdownMenu>
         <DropdownMenuTrigger asChild>
           <Button
@@ -67,6 +93,9 @@ export const CellAction: React.FC<CellActionProps> = ({ data }) => {
             }}
           >
             <Edit className="h-4 w-4" /> View
+          </DropdownMenuItem>
+          <DropdownMenuItem onClick={() => setOpen(true)}>
+            <Trash className="h-4 w-4" /> Delete
           </DropdownMenuItem>
         </DropdownMenuContent>
       </DropdownMenu>

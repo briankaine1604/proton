@@ -14,6 +14,7 @@ import { ChevronDown, LogOut } from "lucide-react";
 
 export const UserButton = () => {
   const user = useCurrentUser();
+
   return (
     <DropdownMenu>
       <DropdownMenuTrigger className="flex items-center">

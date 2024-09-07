@@ -23,16 +23,16 @@ export const CardWrapper = ({
       <CardHeader>
         <Header label={headerLabel} />
       </CardHeader>
-      {showSocial && (
+      {/* {showSocial && (
         <CardFooter>
           <Social />
         </CardFooter>
-      )}
-      {/* <CardContent>{children}</CardContent> */}
-      {/* 
+      )} */}
+      <CardContent>{children}</CardContent>
+
       <CardFooter>
         <Backbutton href={backButtonHref} label={backButtonLabel} />
-      </CardFooter> */}
+      </CardFooter>
     </Card>
   );
 };

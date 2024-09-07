@@ -43,49 +43,46 @@ export function Services() {
           (prevIndex) => (prevIndex + 1) % servicesData.length
         );
         setAnimationClass("enter");
-      }, 1000); // Duration of exit animation
+      }, 300); // Shorter exit animation for smooth transition
     }, 5000); // Interval duration
 
     return () => clearInterval(interval);
   }, []);
 
   return (
-    <section className="relative py-14 bg-gray-900 text-white overflow-hidden">
+    <section className="relative h-[450px] bg-gray-900 text-white overflow-hidden backdrop-blur-lg backdrop-filter ">
       {/* Background Particles */}
       <div className="absolute inset-0 pointer-events-none">
         <div className="absolute inset-0 bg-particles"></div>
       </div>
 
-      <Container className="relative z-10">
-        <Heading className="text-5xl mb-5 text-center font-bold text-gray-100">
+      <Container className="relative z-10 flex flex-col items-center pt-10">
+        <Heading className="text-4xl mb-5 text-center font-bold text-gray-100">
           Our Services
         </Heading>
-        <p className="text-center text-lg mb-10 max-w-2xl mx-auto text-gray-300">
+        <p className="text-center text-base font-semibold mb-10 max-w-2xl mx-auto text-gray-300">
           Discover the innovative services we offer, tailored to your needs.
         </p>
 
         {/* Carousel of Services */}
         <div className="relative flex justify-center items-center">
           <div
-            className={`service-item ${animationClass}`}
+            className={`service-item transition-opacity duration-500 ${animationClass}`}
             key={currentServiceIndex}
           >
             <Image
               src={servicesData[currentServiceIndex].icon}
               alt={servicesData[currentServiceIndex].title}
-              width={80}
-              height={80}
-              className="mx-auto"
+              width={50} // Fixed width
+              height={50} // Fixed height
+              className="mx-auto object-contain" // Ensures proper scaling and positioning
             />
-            <h1 className="mt-4 text-2xl font-semibold">
+            <h1 className="mt-4 text-xl font-semibold">
               {servicesData[currentServiceIndex].title}
             </h1>
-            <p className="mt-4 text-lg text-gray-400">
+            <p className="mt-4 text-base text-gray-400 max-w-md mx-auto h-28 overflow-hidden">
               {servicesData[currentServiceIndex].description}
             </p>
-            {/* <a href="#" className="text-blue-400 hover:underline mt-4 block">
-              Learn More
-            </a> */}
           </div>
         </div>
       </Container>

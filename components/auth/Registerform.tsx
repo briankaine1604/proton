@@ -19,11 +19,13 @@ import {
   FormLabel,
   FormMessage,
 } from "../ui/form";
+import { Eye, EyeOff } from "lucide-react";
 
 export const RegisterForm = () => {
   const [isPending, startTransition] = useTransition();
   const [error, setError] = useState<string | undefined>();
   const [success, setSuccess] = useState<string | undefined>();
+  const [showPassword, setShowPassword] = useState(false); // State to toggle password visibility
   const form = useForm<z.infer<typeof RegisterSchema>>({
     resolver: zodResolver(RegisterSchema),
     defaultValues: {
@@ -46,14 +48,14 @@ export const RegisterForm = () => {
 
   return (
     <CardWrapper
-      headerLabel="Create and account"
+      headerLabel="Create an account"
       backButtonHref="/auth/login"
       backButtonLabel="Already have an account?"
       showSocial
     >
       <Form {...form}>
-        <form onSubmit={form.handleSubmit(onSubmit)} className=" space-y-6">
-          <div className=" space-y-4">
+        <form onSubmit={form.handleSubmit(onSubmit)} className="space-y-6">
+          <div className="space-y-4">
             <FormField
               control={form.control}
               name="name"
@@ -96,12 +98,29 @@ export const RegisterForm = () => {
                 <FormItem>
                   <FormLabel>Password</FormLabel>
                   <FormControl>
-                    <Input
-                      {...field}
-                      placeholder="******"
-                      type="password"
-                      disabled={isPending}
-                    />
+                    <div className="relative">
+                      <Input
+                        {...field}
+                        placeholder="******"
+                        type={showPassword ? "text" : "password"} // Toggle input type
+                        disabled={isPending}
+                      />
+                      <button
+                        type="button"
+                        className="absolute inset-y-0 right-0 flex items-center px-4"
+                        onClick={() => setShowPassword(!showPassword)} // Toggle state
+                        aria-label={
+                          showPassword ? "Hide password" : "Show password"
+                        }
+                      >
+                        {showPassword ? (
+                          <EyeOff size={20} />
+                        ) : (
+                          <Eye size={20} />
+                        )}{" "}
+                        {/* Lucide icons */}
+                      </button>
+                    </div>
                   </FormControl>
                   <FormMessage />
                 </FormItem>
@@ -110,7 +129,11 @@ export const RegisterForm = () => {
           </div>
           <FormError message={error} />
           <FormSuccess message={success} />
-          <Button type="submit" className="w-full" disabled={isPending}>
+          <Button
+            type="submit"
+            className="w-full bg-gray-800 hover:bg-gray-800/80"
+            disabled={isPending}
+          >
             Create an account
           </Button>
         </form>

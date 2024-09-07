@@ -1,24 +1,32 @@
 "use client";
+
 import React, { useEffect, useState } from "react";
 import Container from "../MaxWidthWrapper";
 import Heading from "../heading";
 import Image from "next/image";
 import { getHomeProjects } from "@/actions/get-home-projects";
-import { ChevronLeft, ChevronRight } from "lucide-react"; // Importing icons
+import Link from "next/link";
+import { Skeleton } from "../ui/skeleton";
+import { Button } from "../ui/button";
+import { Swiper, SwiperSlide } from "swiper/react";
+import "swiper/css";
+import "swiper/css/pagination";
+import "swiper/css/navigation";
+import "swiper/css/autoplay"; // Import autoplay styles
+
+import { Pagination, Navigation, Autoplay } from "swiper/modules";
 
 type Project = {
   id: string;
   name: string;
   address?: string;
+  slug: string;
   images: { id: string; url: string }[];
-};
-
-type Props = {
-  projects: Project[];
 };
 
 export function ProjectsList() {
   const [projects, setProjects] = useState<Project[]>([]);
+  const [loading, setLoading] = useState(true);
 
   useEffect(() => {
     const fetchProjects = async () => {
@@ -27,39 +35,52 @@ export function ProjectsList() {
         setProjects(projectList);
       } catch (error) {
         console.error("Failed to fetch projects:", error);
+      } finally {
+        setLoading(false);
       }
     };
 
     fetchProjects();
   }, []);
 
-  return <Projects projects={projects} />;
+  return loading ? (
+    <div className="flex justify-center py-20">
+      <SkeletonSection />
+    </div>
+  ) : (
+    <Projects projects={projects} />
+  );
 }
 
-function Projects({ projects }: Props) {
-  const [currentIndex, setCurrentIndex] = useState(0);
+function SkeletonSection() {
+  return (
+    <div className="w-full max-w-4xl">
+      <Skeleton className="h-10 w-3/4 mx-auto mb-6" />
+      <Skeleton className="h-6 w-1/2 mx-auto mb-12" />
+      <Skeleton className="h-2 w-32 mx-auto mb-8 rounded-full" />
 
-  const nextSlide = () => {
-    setCurrentIndex((prevIndex) => (prevIndex + 1) % projects.length);
-  };
+      <div className="relative h-[400px] overflow-hidden rounded-lg border-2 border-gray-200">
+        <Skeleton className="absolute inset-0 w-full h-full" />
+      </div>
 
-  const prevSlide = () => {
-    setCurrentIndex(
-      (prevIndex) => (prevIndex - 1 + projects.length) % projects.length
-    );
-  };
+      <div className="flex justify-center mt-4">
+        {Array.from({ length: 3 }).map((_, index) => (
+          <Skeleton key={index} className="w-3 h-3 rounded-full mx-1" />
+        ))}
+      </div>
 
-  // Ensure there are projects to display
-  if (projects.length === 0) {
-    return <p>No projects available.</p>;
-  }
+      <div className="flex justify-left mt-8">
+        <Skeleton className="h-10 w-32" />
+      </div>
+    </div>
+  );
+}
 
-  const currentProject = projects[currentIndex];
-
+function Projects({ projects }: { projects: Project[] }) {
   return (
     <div className="relative py-20 w-full bg-[#f7f8fa] text-lg">
       <Container>
-        <div className="relative z-10 bg-white shadow-lg rounded-lg p-10">
+        <div className="relative z-10  rounded-lg ">
           <Heading className="text-4xl mb-6 text-center font-bold text-gray-800">
             Browse our Latest Projects
           </Heading>
@@ -69,40 +90,51 @@ function Projects({ projects }: Props) {
           </p>
           <div className="h-2 w-32 bg-[#820001] mx-auto mb-8 rounded-full"></div>
 
-          {/* Image Carousel with Overlay */}
-          <div className="relative flex items-center justify-center h-[400px] overflow-hidden rounded-lg border-2 border-gray-200">
-            <button
-              onClick={prevSlide}
-              aria-label="Previous Slide"
-              className="absolute left-0 z-20 p-3 bg-[#820001] text-white rounded-full transition-transform duration-300 hover:scale-110"
-            >
-              <ChevronLeft size={24} />
-            </button>
+          <Swiper
+            modules={[Pagination, Navigation, Autoplay]}
+            spaceBetween={20} // Space between slides
+            slidesPerView={1.3} // Show 1 full slide and 30% of the next
+            centeredSlides={false} // Align slides to the left
+            pagination={{ clickable: true }}
+            navigation
+            autoplay={{
+              delay: 5000, // Delay between slides in milliseconds (3 seconds)
+              disableOnInteraction: false, // Continue autoplay after user interaction
+            }}
+            className="image-carousel"
+          >
+            {projects.map((project) => (
+              <SwiperSlide
+                key={project.id}
+                className="h-full rounded-lg border-2 border-gray-200 overflow-hidden"
+              >
+                <div className="relative aspect-video">
+                  <Image
+                    fill
+                    src={project.images[0]?.url || "placeholder.jpg"}
+                    alt={project.name || "Project Image"}
+                    className="w-full h-full object-cover rounded-lg"
+                  />
+                  <Link
+                    href={`/projects/${project.slug}`}
+                    className="absolute bottom-0 left-0 w-full bg-gradient-to-t from-black/70 to-transparent text-white p-4"
+                  >
+                    <h2 className="text-xl font-bold">{project.name}</h2>
+                    {project.address && (
+                      <p className="text-sm">{project.address}</p>
+                    )}
+                  </Link>
+                </div>
+              </SwiperSlide>
+            ))}
+          </Swiper>
 
-            <div className="relative w-full h-full flex items-center justify-center aspect-square transition-all duration-500 ease-in-out">
-              <Image
-                fill
-                src={currentProject.images[0]?.url || "/placeholder.jpg"} // Fallback to placeholder
-                alt={currentProject.name || "Project Image"}
-                className="w-full h-full object-cover"
-              />
-
-              {/* Overlay */}
-              <div className="absolute bottom-0 left-0 w-full bg-gradient-to-t from-black/70 to-transparent text-white p-4">
-                <h2 className="text-xl font-bold">{currentProject.name}</h2>
-                {currentProject.address && (
-                  <p className="text-sm">{currentProject.address}</p>
-                )}
-              </div>
-            </div>
-
-            <button
-              onClick={nextSlide}
-              aria-label="Next Slide"
-              className="absolute right-0 z-20 p-3 bg-[#820001] text-white rounded-full transition-transform duration-300 hover:scale-110"
-            >
-              <ChevronRight size={24} />
-            </button>
+          <div className="flex justify-left mt-8">
+            <Link href="/projects">
+              <Button variant={"link"} className="text-lg">
+                View All Projects
+              </Button>
+            </Link>
           </div>
         </div>
       </Container>

@@ -256,3 +256,15 @@ body,
   font-size: 18px;
   color: #cbd5e1;
 }
+
+.swiper-button-next,
+.swiper-button-prev {
+  color: #820001; /* Brand color */
+  font-size: 1.5rem; /* Slightly larger for mobile visibility */
+  transition: transform 0.3s ease;
+}
+
+.swiper-button-next:hover,
+.swiper-button-prev:hover {
+  transform: scale(1.1); /* Slight hover effect */
+}

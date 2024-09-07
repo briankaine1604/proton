@@ -7,6 +7,6 @@ const URL = `${
 
 export const getProjects = async (): Promise<Project[]> => {
   const res = await axios.get(`${URL}`);
-  console.log(res.data);
+
   return res.data;
 };

@@ -11,10 +11,9 @@ export async function DeleteProject(projectId: string) {
     throw new Error("Not authenticated");
   }
 
-  // Check if the user has admin privileges
-  // if (user.role !== UserRole.ADMIN) {
-  //   throw new Error("Only admins can delete users");
-  // }
+  if (user.role !== UserRole.ADMIN && user.role !== UserRole.STAFF) {
+    throw new Error("Only admins or staff can create project");
+  }
 
   try {
     // Delete the user

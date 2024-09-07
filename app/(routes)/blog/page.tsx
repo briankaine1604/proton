@@ -13,6 +13,7 @@ const Page = () => {
   const [categories, setCategories] = useState<CategoryData[]>([]);
   const [search, setSearch] = useState("");
   const [category, setCategory] = useState("");
+  const [loading, setLoading] = useState(true); // Add loading state
 
   useEffect(() => {
     const fetchCategories = async () => {
@@ -25,18 +26,20 @@ const Page = () => {
 
   useEffect(() => {
     const fetchBlogs = async () => {
+      setLoading(true); // Start loading
       const query = qs.stringify({ search, category });
       const filteredBlogs = await getBlogs(query);
       setBlogs(filteredBlogs);
+      setLoading(false); // Stop loading
     };
 
     fetchBlogs();
   }, [search, category]);
 
   return (
-    <main className="h-full w-full min-h-screen pt-10 bg-gradient-to-b via-[#f7f8fa] to-white from-[#e2e8f0] pb-10">
+    <main className="h-full w-full min-h-screen pt-20 bg-gradient-to-b via-[#f7f8fa] to-white from-[#e2e8f0] pb-10">
       <Container>
-        <div className="mb-14 text-center">
+        <div className="mb-10 text-center">
           <h1 className="text-5xl font-bold text-gray-900 mt-5">
             Insights & Articles
           </h1>
@@ -60,20 +63,19 @@ const Page = () => {
         <div className="flex justify-center mb-20">
           <select
             className="
-   
-    px-6 py-2 
-    border border-gray-300 
-    rounded-lg 
-    focus:outline-none 
-    focus:ring-2 focus:ring-[#820001] 
-    bg-white 
-    text-gray-700 
-    hover:border-[#820001] 
-    transition 
-    duration-300
-    shadow-sm
-    w-full max-w-xs
-    "
+              px-6 py-2 
+              border border-gray-300 
+              rounded-lg 
+              focus:outline-none 
+              focus:ring-2 focus:ring-[#820001] 
+              bg-white 
+              text-gray-700 
+              hover:border-[#820001] 
+              transition 
+              duration-300
+              shadow-sm
+              w-full max-w-xs
+            "
             value={category}
             onChange={(e) => setCategory(e.target.value)}
           >
@@ -86,10 +88,13 @@ const Page = () => {
           </select>
         </div>
 
+        {/* Render Skeletons if loading */}
         <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8 mb-14">
-          {blogs.map((blog) => (
-            <BlogCard key={blog.id} blog={blog} />
-          ))}
+          {loading
+            ? Array.from({ length: 6 }).map((_, index) => (
+                <BlogCard key={index} isLoading={true} />
+              ))
+            : blogs.map((blog) => <BlogCard key={blog.id} blog={blog} />)}
         </div>
       </Container>
     </main>

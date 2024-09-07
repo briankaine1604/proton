@@ -10,6 +10,9 @@ export async function DeleteBlog(blogId: string) {
   if (!user?.id) {
     throw new Error("Not authenticated");
   }
+  if (user.role !== UserRole.ADMIN && user.role !== UserRole.STAFF) {
+    return { error: "Only admins or staff can create projects" };
+  }
 
   // Check if the user has admin privileges
   // if (user.role !== UserRole.ADMIN) {

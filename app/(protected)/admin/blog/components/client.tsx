@@ -21,7 +21,7 @@ export const BlogClient: React.FC<BlogClientProps> = ({ data }) => {
       <Container>
         <PathTrail />
         <div className="flex justify-between">
-          <h1 className=" text-3xl font-semibold">Blog</h1>
+          <h1 className=" text-xl sm:text-3xl font-semibold">Blog</h1>
           <Button onClick={() => router.push(`/admin/blog/new`)}>
             <Plus className="mr-2 w-4 h-4" />
             Add new{" "}

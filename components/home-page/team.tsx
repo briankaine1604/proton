@@ -37,7 +37,7 @@ function Team({ teamMembers }: Props) {
     <div className="w-full min-h-screen py-20 bg-gradient-to-b via-[#f7f8fa] to-white from-[#e2e8f0]">
       <Container>
         <div className="text-center mb-12">
-          <Heading className="text-4xl mb-8">Meet the Team</Heading>
+          <Heading className="text-4xl font-bold mb-8">Meet the Team</Heading>
 
           <div className="flex justify-center items-center mb-8">
             {teamMembers.map((member, index) => (

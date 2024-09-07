@@ -1,6 +1,8 @@
 import { getBlog } from "@/actions/get-blog";
 import Container from "@/components/MaxWidthWrapper";
+import { ArrowLeftCircle } from "lucide-react";
 import Image from "next/image";
+import Link from "next/link";
 
 interface BlogPageProps {
   params: {
@@ -14,7 +16,18 @@ const BlogPage: React.FC<BlogPageProps> = async ({ params }) => {
   return (
     <div className="bg-gradient-to-b from-[#f7f8fa] to-white min-h-screen">
       <Container>
-        <div className="py-10">
+        <div className="py-20">
+          <div className="mb-8 flex items-center">
+            {/* Back to Projects Button */}
+            <Link
+              href="/blog"
+              passHref
+              className="flex items-center text-gray-700 hover:text-gray-900 transition-colors text-xl"
+            >
+              <ArrowLeftCircle className=" text-xl mr-2" />
+              <span className=" font-medium">Back to Blogs</span>
+            </Link>
+          </div>
           <div className="flex flex-col lg:flex-row lg:items-start lg:gap-x-16">
             {/* Blog Cover Image */}
             <div className="w-full lg:w-2/5 h-72 lg:h-96 relative shadow-lg rounded-lg overflow-hidden">

@@ -1,155 +1,259 @@
 "use client";
-import React from "react";
 
+import React from "react";
 import { motion } from "framer-motion";
 import Link from "next/link";
 import Container from "@/components/MaxWidthWrapper";
-
-type SectionProps = {
-  title: string;
-  children: React.ReactNode;
-};
-
-const Section = ({ title, children }: SectionProps) => (
-  <motion.section
-    className="my-16 text-left"
-    initial={{ opacity: 0, y: 20 }}
-    animate={{ opacity: 1, y: 0 }}
-    transition={{ duration: 0.5 }}
-  >
-    <h2 className="text-3xl font-semibold text-gray-700 mb-4 border-l-4 border-blue-500 pl-4">
-      {title}
-    </h2>
-    <div className="text-xl text-gray-700 leading-relaxed">{children}</div>
-  </motion.section>
-);
+import AboutSection from "@/components/AboutSection";
+import {
+  BuildingOfficeIcon,
+  GlobeAltIcon,
+  LightBulbIcon,
+  CheckBadgeIcon,
+  ChartBarIcon,
+  PhoneIcon,
+  EnvelopeIcon,
+  MapPinIcon,
+  HandThumbUpIcon,
+} from "@heroicons/react/24/solid";
+import { TeamSection } from "./components/teamsection";
 
 export default function AboutPage() {
   return (
-    <section className="w-full min-h-screen bg-[#f7f8fa] text-lg py-20">
-      <Container>
-        {/* 1. Introduction to Your Brand */}
-        <motion.main
-          className="text-center mb-16"
-          initial={{ opacity: 0, y: 20 }}
-          animate={{ opacity: 1, y: 0 }}
-          transition={{ duration: 0.5 }}
+    <div className="bg-white">
+      {/* Hero Section */}
+      <section className="relative text-white py-28">
+        <div
+          className="absolute inset-0 bg-cover bg-center"
+          style={{
+            backgroundImage: "url('/about.jpg')",
+          }}
         >
-          <h1 className="text-5xl font-bold text-gray-800 mb-4">
-            Welcome to Proton
-          </h1>
-          <p className="text-2xl text-black/70 max-w-2xl mx-auto">
-            Leading the Charge in Eco-Friendly Real Estate
-          </p>
-        </motion.main>
+          <div className="absolute inset-0 bg-[#820001] opacity-50"></div>
+        </div>
+        <Container className="relative z-10">
+          <div className="max-w-3xl mx-auto text-center">
+            <motion.h1
+              className="text-5xl font-bold mb-6"
+              initial={{ opacity: 0, y: -50 }}
+              animate={{ opacity: 1, y: 0 }}
+              transition={{ duration: 0.8 }}
+            >
+              About Proton Real Estate Development Limited
+            </motion.h1>
+            <motion.p
+              className="text-xl text-gray-200"
+              initial={{ opacity: 0, y: 50 }}
+              animate={{ opacity: 1, y: 0 }}
+              transition={{ duration: 0.8, delay: 0.2 }}
+            >
+              Breaking down the barriers of property ownership through
+              innovation, sustainability, and accessibility.
+            </motion.p>
+          </div>
+        </Container>
+      </section>
 
-        {/* 2. Mission Statement */}
-        <Section title="Our Mission">
-          <p>
-            At Proton, we are committed to revolutionizing real estate in Africa
-            by creating sustainable developments that inspire new lifestyles and
-            contribute to a better future.
-          </p>
-        </Section>
+      {/* Main Content */}
+      <Container>
+        <div className="py-16">
+          {/* Company Profile */}
+          <AboutSection
+            title="Company Profile"
+            icon={<BuildingOfficeIcon className="w-8 h-8" />}
+          >
+            <p>
+              <span className="font-semibold">
+                Proton Real Estate Development Limited (&quot;Proton&quot;)
+              </span>{" "}
+              is a dynamic and innovative real estate company dedicated to
+              making property ownership more accessible and affordable for
+              millennials and Gen Z. We strive to create a new generation of
+              millionaires through smart, sustainable property investments that
+              align with modern lifestyles and technological advancements.
+            </p>
+          </AboutSection>
 
-        {/* 3. Vision Statement */}
-        <Section title="Our Vision">
-          <p>
-            We envision a future where every home in Africa is a beacon of
-            sustainability, technology, and comfort. Our goal is to make this a
-            reality through innovative and eco-friendly practices.
-          </p>
-        </Section>
+          {/* Vision */}
+          <AboutSection
+            title="Our Vision"
+            icon={<GlobeAltIcon className="w-8 h-8" />}
+          >
+            <p>
+              To revolutionize the real estate industry by providing smart,
+              eco-friendly homes and investment opportunities that leverage
+              modern technology and sustainability, driving positive change in
+              communities across Africa.
+            </p>
+          </AboutSection>
 
-        {/* 4. Core Values */}
-        <Section title="Our Core Values">
-          <p>
-            Our core values of integrity, innovation, and sustainability guide
-            everything we do. We strive to deliver exceptional results while
-            making a positive difference in the world.
-          </p>
-        </Section>
+          {/* Mission */}
+          <AboutSection
+            title="Our Mission"
+            icon={<LightBulbIcon className="w-8 h-8" />}
+          >
+            <p>
+              To empower individuals with high-value real estate investments by
+              delivering exceptional projects that exceed customer expectations,
+              foster financial growth, and contribute to the sustainable
+              development of Africa through environmental stewardship and
+              economic progress.
+            </p>
+          </AboutSection>
 
-        {/* 5. Company History */}
-        <Section title="Our Journey">
-          <p>
-            Proton started with a vision to transform real estate in Africa.
-            Over the years, we&apos;ve achieved key milestones, including the
-            development of sustainable housing projects and the expansion of our
-            services across the continent.
-          </p>
-        </Section>
+          {/* Core Values */}
+          <AboutSection
+            title="Our Core Values"
+            icon={<CheckBadgeIcon className="w-8 h-8" />}
+          >
+            <ul className="list-disc list-inside space-y-2">
+              <li>
+                <span className="font-semibold">Integrity:</span> We conduct our
+                business with the highest ethical standards, ensuring
+                transparency and honesty in all our dealings.
+              </li>
+              <li>
+                <span className="font-semibold">Innovation:</span> We embrace
+                modern technologies and creative solutions to deliver
+                cutting-edge real estate developments.
+              </li>
+              <li>
+                <span className="font-semibold">Sustainability:</span> We are
+                committed to eco-friendly practices that protect and preserve
+                the environment for future generations.
+              </li>
+              <li>
+                <span className="font-semibold">Excellence:</span> We strive for
+                excellence in every project, ensuring quality and customer
+                satisfaction at every step.
+              </li>
+              <li>
+                <span className="font-semibold">Accessibility:</span> We aim to
+                make property ownership achievable for all by offering
+                affordable and flexible investment options.
+              </li>
+            </ul>
+          </AboutSection>
 
-        {/* 6. Leadership Team */}
-        <Section title="Meet Our Leaders">
-          <p>
-            Our leadership team consists of experienced professionals who are
-            passionate about real estate and sustainability. They bring a wealth
-            of knowledge and expertise to Proton, driving our mission forward.
-          </p>
-        </Section>
+          {/* Our Offerings */}
+          <AboutSection
+            title="Our Offerings"
+            icon={<HandThumbUpIcon className="w-8 h-8" />}
+          >
+            <ul className="space-y-4">
+              <li>
+                <h3 className="text-xl font-semibold text-gray-800 mb-1">
+                  Smart Homes
+                </h3>
+                <p>
+                  Our properties are equipped with the latest home automation
+                  and energy-efficient technologies, providing comfort,
+                  convenience, and cost savings.
+                </p>
+              </li>
+              <li>
+                <h3 className="text-xl font-semibold text-gray-800 mb-1">
+                  Eco-Friendly Developments
+                </h3>
+                <p>
+                  We incorporate green building practices in all our projects,
+                  ensuring minimal environmental impact and promoting
+                  sustainable living.
+                </p>
+              </li>
+              <li>
+                <h3 className="text-xl font-semibold text-gray-800 mb-1">
+                  Investment Opportunities
+                </h3>
+                <p>
+                  We offer substantial returns across various real estate
+                  sectors, including residential, commercial, agricultural, and
+                  industrial properties.
+                </p>
+              </li>
+              <li>
+                <h3 className="text-xl font-semibold text-gray-800 mb-1">
+                  Affordable Property Ownership
+                </h3>
+                <p>
+                  Our flexible payment plans and low entry barriers make it
+                  easier for young investors to own and invest in real estate.
+                </p>
+              </li>
+            </ul>
+          </AboutSection>
 
-        {/* 7. Commitment to Sustainability */}
-        <Section title="Our Commitment to Sustainability">
-          <p>
-            Sustainability is at the heart of everything we do. We use renewable
-            materials, reduce waste, and incorporate green technologies in all
-            our projects, ensuring a positive impact on the environment.
-          </p>
-        </Section>
+          {/* Our Commitment */}
+          <AboutSection
+            title="Our Commitment"
+            icon={<ChartBarIcon className="w-8 h-8" />}
+          >
+            <p>
+              At Proton, we are dedicated to delivering exceptional value
+              through meticulously planned and executed projects that meet the
+              highest standards of quality and sustainability. We believe in
+              building not just homes, but thriving communities where
+              individuals can prosper and achieve financial growth.
+            </p>
+            <p>
+              We adhere strictly to all regulatory standards, including
+              registration with the Corporate Affairs Commission (CAC) and
+              compliance with the Economic and Financial Crimes Commission’s
+              Special Control Unit on Money Laundering (SCUML) as outlined in
+              the Money Laundering (Prevention and Prohibition) Act, 2022.
+            </p>
+          </AboutSection>
 
-        {/* 8. Client Testimonials */}
-        <Section title="What Our Clients Say">
-          <p>
-            &quot;Proton&apos;s commitment to sustainability and innovation is
-            truly inspiring. Our experience with their team has been nothing
-            short of exceptional.&quot; - John Doe, Happy Client
-          </p>
-          <p>
-            &quot;The projects developed by Proton are not only eco-friendly but
-            also beautifully designed. We&apos;re thrilled with the
-            results!&quot; - Jane Smith, Satisfied Partner
-          </p>
-        </Section>
+          {/* Contact Information */}
+          <AboutSection
+            title="Get in Touch"
+            icon={<PhoneIcon className="w-8 h-8" />}
+          >
+            <p>
+              We&apos;d love to hear from you! Whether you&apos;re interested in
+              our projects or have any inquiries, feel free to reach out.
+            </p>
+            <div className="mt-6 space-y-4">
+              <div className="flex items-center">
+                <EnvelopeIcon className="w-6 h-6 text-[#820001] mr-3" />
+                <span className="text-lg text-gray-700">
+                  protonrealestateng@gmail.com
+                </span>
+              </div>
+              <div className="flex items-center">
+                <PhoneIcon className="w-6 h-6 text-[#820001] mr-3" />
+                <span className="text-lg text-gray-700">+234 706 785 0835</span>
+              </div>
+              <div className="flex items-center">
+                <MapPinIcon className="w-6 h-6 text-[#820001] mr-3" />
+                <span className="text-lg text-gray-700">
+                  3, Jemide Avenue off Giwa Amu, Airport Road, Benin City, Edo
+                  State.
+                </span>
+              </div>
+            </div>
+          </AboutSection>
 
-        {/* 9. Future Goals */}
-        <Section title="Looking Ahead">
-          <p>
-            We&apos;re excited about the future and have several projects in the
-            pipeline that will further our mission of creating sustainable
-            developments. Stay tuned for more updates!
-          </p>
-        </Section>
+          <TeamSection />
 
-        {/* 10. Social Responsibility */}
-        <Section title="Giving Back to the Community">
-          <p>
-            Proton is dedicated to giving back to the communities we serve. We
-            support various social and charitable initiatives that align with
-            our values and help create a better future for everyone.
-          </p>
-        </Section>
-
-        {/* 11. Call to Action */}
-        <Section title="Join Us in Shaping the Future">
-          <p>
-            We invite you to join us in shaping the future of real estate in
-            Africa. Whether you&apos;re a potential client, partner, or simply
-            interested in learning more about our work, we&apos;d love to hear
-            from you.
-          </p>
-          <Link href="/contact" className="inline-block mt-4 text-blue-600">
-            Contact Us
-          </Link>
-        </Section>
-
-        {/* 12. Contact Information */}
-        <Section title="Get in Touch">
-          <p>Email: info@proton.com</p>
-          <p>Phone: 07067850835</p>
-          <p>Office Address: 1234 Proton Avenue, Lagos, Nigeria</p>
-        </Section>
+          {/* Call to Action */}
+          <div className="text-center mt-16">
+            <h2 className="text-3xl font-semibold text-gray-800 mb-4">
+              Join Us in Creating Sustainable Futures
+            </h2>
+            <p className="text-lg text-gray-600 mb-6">
+              Become a part of the Proton journey and invest in a future
+              that&apos;s sustainable, innovative, and rewarding.
+            </p>
+            <Link
+              href="/contact"
+              className="inline-block px-8 py-3 bg-[#820001] text-white rounded-md text-lg font-medium hover:bg-[#6b0001] transition-colors duration-300"
+            >
+              Contact Us Today
+            </Link>
+          </div>
+        </div>
       </Container>
-    </section>
+    </div>
   );
 }

@@ -8,12 +8,13 @@ export async function GET(req: NextRequest) {
         id: true,
         name: true,
         image: true,
+        bio: true,
         role: true,
         createdAt: true,
         updatedAt: true,
       },
       orderBy: {
-        createdAt: "desc",
+        createdAt: "asc",
       },
     });
 

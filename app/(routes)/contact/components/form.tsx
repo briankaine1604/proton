@@ -16,7 +16,7 @@ import { Button } from "@/components/ui/button";
 import { UploadButton } from "@/utils/uploadthing";
 import Container from "@/components/MaxWidthWrapper";
 import { toast } from "sonner";
-import { X } from "lucide-react";
+import { Loader2, X } from "lucide-react";
 import { useState } from "react";
 import { Textarea } from "@/components/ui/textarea";
 import { DeleteImage } from "@/actions/deleteImage";
@@ -36,6 +36,7 @@ export const ContactForm = () => {
   const [file, setFile] = useState<string>("");
   const [fileName, setFileName] = useState<string>("");
   const [success, setSuccess] = useState("");
+  const [isLoading, setIsLoading] = useState(false);
   const [error, setError] = useState<string>("");
 
   const form = useForm<z.infer<typeof ContactFormSchema>>({
@@ -51,12 +52,13 @@ export const ContactForm = () => {
   });
 
   const onSubmit = async (data: z.infer<typeof ContactFormSchema>) => {
+    setIsLoading(true);
     try {
       // Send the form data to the API endpoint
       const res = await axios.post("/api/contact", data);
 
       // Check if the submission was successful
-      if (res.status === 201) {
+      if (res.status === 200) {
         setSuccess("Form submitted successfully!");
         console.log("Form data:", data);
         form.reset();
@@ -65,10 +67,9 @@ export const ContactForm = () => {
       }
     } catch (error) {
       console.error("Failed to submit form", error);
-      toast.error(
-        "An error occurred while submitting the form. Please try again."
-      );
+      setError("Something went wrong submitting the form");
     }
+    setIsLoading(false);
   };
 
   const removeFile = async () => {
@@ -237,8 +238,12 @@ export const ContactForm = () => {
           <FormError message={error} />
 
           {/* Submit Button */}
-          <Button type="submit" className="w-full py-2 mt-4 ">
-            Submit
+          <Button
+            type="submit"
+            className="mt-4 flex items-center gap-x-2 w-full"
+          >
+            <span>Save</span>
+            {isLoading && <Loader2 className=" animate-spin size-4" />}
           </Button>
         </form>
       </Form>

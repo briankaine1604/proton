@@ -1,8 +1,9 @@
 import React from "react";
 import Link from "next/link";
-import { Facebook, Twitter, Instagram, Linkedin } from "lucide-react";
+
 import Container from "./MaxWidthWrapper";
 import Image from "next/image";
+import { FaFacebook, FaInstagram, FaLinkedin, FaTwitter } from "react-icons/fa";
 
 type Props = {};
 
@@ -23,10 +24,8 @@ export function Footer({}: Props) {
               />
             </Link>
             <div className="flex flex-col text-center lg:text-left">
-              <div className="text-sm font-semibold text-gray-400">
-                Office Address
-              </div>
-              <div className="text-xs max-w-[300px]">
+              <div className=" font-semibold text-gray-400">Office Address</div>
+              <div className=" max-w-[300px]">
                 3, Jemide Avenue off Giwa Amu, Airport Road, Benin City, Edo
                 state.
               </div>
@@ -35,12 +34,7 @@ export function Footer({}: Props) {
 
           {/* Navigation Links */}
           <div className="mb-6 lg:mb-0">
-            <ul className="flex gap-4 lg:gap-12 text-sm lg:text-base font-semibold justify-center lg:justify-start">
-              <li>
-                <Link href="/" className="hover:text-[#820001] hover:underline">
-                  Home
-                </Link>
-              </li>
+            <ul className="flex gap-4 lg:gap-12  lg:text-base font-semibold justify-center lg:justify-start">
               <li>
                 <Link
                   href="/about"
@@ -51,10 +45,18 @@ export function Footer({}: Props) {
               </li>
               <li>
                 <Link
-                  href="/services"
+                  href="/blog"
                   className="hover:text-[#820001] hover:underline"
                 >
-                  Services
+                  Blog
+                </Link>
+              </li>
+              <li>
+                <Link
+                  href="/resources/FAQs"
+                  className="hover:text-[#820001] hover:underline"
+                >
+                  FAQs
                 </Link>
               </li>
               <li>
@@ -81,36 +83,46 @@ export function Footer({}: Props) {
 
         <div className="flex flex-col md:flex-row gap-y-4 md:gap-y-0 justify-between items-center">
           <div className="flex flex-col lg:flex-row gap-x-2 items-center">
-            <div className="text-gray-400 font-semibold">Office Line:</div>
-            <a
-              href="tel:+2347067850835"
-              className="hover:text-[#820001] hover:underline"
-            >
-              +234 706 785 0835
-            </a>
+            <div className="text-gray-400 font-semibold">Office Line</div>
+            <div className="hover:text-[#820001] hover:underline">
+              07067850835
+            </div>
           </div>
           <div className="flex flex-col lg:flex-row gap-x-2 items-center">
-            <div className="text-gray-400 font-semibold">Email us at:</div>
+            <div className="text-gray-400 font-semibold">Email us at</div>
             <a
               href="mailto:protonrealestateng@gmail.com"
               className="hover:text-[#820001] hover:underline"
             >
-              protonrealestateng@gmail.com
+              info@protonrealestate.com
             </a>
           </div>
           <div className="flex gap-4 lg:gap-6 text-lg lg:text-xl">
-            <a href="#" aria-label="Facebook" className="hover:text-[#820001]">
-              <Facebook />
+            <a
+              href="https://www.facebook.com/share/am2FdW4hZJ7iuVb5/?mibextid=LQQJ4d"
+              aria-label="Facebook"
+              className="hover:text-[#820001]"
+              target="_blank"
+              rel="noopener noreferrer"
+            >
+              <FaFacebook className="size-5" />
             </a>
-            <a href="#" aria-label="Twitter" className="hover:text-[#820001]">
-              <Twitter />
+
+            {/* <a href="#" aria-label="Twitter" className="hover:text-[#820001]">
+              <FaTwitter className="size-5" />
+            </a> */}
+            <a
+              href="https://www.instagram.com/protonrealestate.ng?igsh=MWo5cXd3ZDMzbmM5ZA=="
+              aria-label="Instagram"
+              className="hover:text-[#820001]"
+              target="_blank"
+              rel="noopener noreferrer"
+            >
+              <FaInstagram className="size-5" />
             </a>
-            <a href="#" aria-label="Instagram" className="hover:text-[#820001]">
-              <Instagram />
-            </a>
-            <a href="#" aria-label="LinkedIn" className="hover:text-[#820001]">
-              <Linkedin />
-            </a>
+            {/* <a href="#" aria-label="LinkedIn" className="hover:text-[#820001]">
+              <FaLinkedin className="size-5" />
+            </a> */}
           </div>
         </div>
 

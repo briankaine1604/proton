@@ -1,4 +1,6 @@
+import { currentUser } from "@/hooks/use-current-user-server";
 import { db } from "@/lib/db";
+import { UserRole } from "@prisma/client";
 import { NextRequest, NextResponse } from "next/server";
 
 export async function PATCH(
@@ -6,6 +8,21 @@ export async function PATCH(
   { params }: { params: { id: string } }
 ) {
   try {
+    const user = await currentUser();
+    if (!user?.id) {
+      return NextResponse.json(
+        { error: "Not authenticated!" },
+        { status: 401 }
+      );
+    }
+    // Check if the user has admin privileges
+    if (user.role !== UserRole.ADMIN && user.role !== UserRole.STAFF) {
+      return NextResponse.json(
+        { error: "Only admins or staff can update status" },
+        { status: 403 }
+      );
+    }
+
     const { id } = params;
     const { status, userId } = await req.json();
 
@@ -37,9 +54,3 @@ export async function PATCH(
     );
   }
 }
-
-export const config = {
-  api: {
-    bodyParser: true,
-  },
-};

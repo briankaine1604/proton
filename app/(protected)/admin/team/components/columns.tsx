@@ -1,12 +1,8 @@
 "use client";
 
 import { ColumnDef } from "@tanstack/react-table";
-import { CellAction } from "./cell-action";
 import Image from "next/image";
-import { Switch } from "@/components/ui/switch";
-import { useState, useTransition } from "react";
-import { updateBlogPublishedStatus } from "./server/publishedstatus";
-import { toast } from "sonner";
+import { CellAction } from "./cell-action";
 // Adjust the import path accordingly
 
 export type TeamColumn = {

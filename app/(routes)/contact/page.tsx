@@ -6,8 +6,8 @@ const ContactPage = () => {
     <main className="bg-gradient-to-b via-[#f7f8fa] to-white from-[#e2e8f0]">
       <Container>
         {/* Hero Section */}
-        <section className="py-12 text-center">
-          <h1 className="text-5xl font-extrabold text-gray-900 mb-4">
+        <section className="py-12 pt-20 text-center">
+          <h1 className="text-5xl font-bold text-gray-900 mb-4">
             Get in Touch
           </h1>
           <p className="text-lg text-gray-500 mb-8">
@@ -24,20 +24,25 @@ const ContactPage = () => {
               Contact Information
             </h2>
             <div className="text-left">
-              <p className="text-gray-600 mb-4 flex items-center">
-                <i className="mr-2">📍</i> Our Office
-              </p>
+              <div className="flex items-center mb-4">
+                <span className="mr-2">📍</span>
+                <p className="text-gray-600">Our Office</p>
+              </div>
               <p className="text-gray-800 mb-2">
                 3, Jemide Avenue off Giwa Amu, Airport Road, Benin City, Edo
                 state.
               </p>
 
-              <p className="text-gray-600 mb-4 flex items-center">
-                <i className="mr-2">📞</i> Phone: +234 706 785 0835
-              </p>
-              <p className="text-gray-600 mb-4 flex items-center">
-                <i className="mr-2">✉️</i> Email: info@protonrealestate.com
-              </p>
+              <div className="flex items-center mb-4">
+                <span className="mr-2">📞</span>
+                <p className="text-gray-600">Phone: +234 706 785 0835</p>
+              </div>
+              <div className="flex items-center mb-4">
+                <span className="mr-2">✉️</span>
+                <p className="text-gray-600">
+                  Email: info@protonrealestate.com
+                </p>
+              </div>
             </div>
           </div>
 

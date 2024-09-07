@@ -5,12 +5,17 @@ import { db } from "@/lib/db";
 import { z } from "zod";
 import { BlogSchema } from "../../[blogId]/components/form";
 import { slugify } from "@/components/slug";
+import { UserRole } from "@prisma/client";
 
 export async function CreateBlog(values: z.infer<typeof BlogSchema>) {
   // Get the current authenticated user
   const user = await currentUser();
   if (!user?.id) {
-    throw new Error("Not authenticated");
+    return { error: "Not authenticated!" };
+  }
+  // Check if the user has admin privileges
+  if (user.role !== UserRole.ADMIN && user.role !== UserRole.STAFF) {
+    return { error: "Only admins or staff can create projects" };
   }
 
   const { title, subtitle, coverImage, content, published, categories } =

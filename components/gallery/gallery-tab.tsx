@@ -1,10 +1,9 @@
 import { cn } from "@/lib/utils";
 import { Tab } from "@headlessui/react";
 import Image from "next/image";
-
+import { Image as ImageType } from "@/types";
 import React, { useState } from "react";
 import { Skeleton } from "../ui/skeleton";
-import { ImageType } from ".";
 
 interface GalleryTabProps {
   image: ImageType;
@@ -19,14 +18,14 @@ const GalleryTab: React.FC<GalleryTabProps> = ({ image }) => {
   return (
     <Tab
       className={
-        "relative size-[100px] flex aspect-square cursor-pointer items-center bg-white justify-center rounded-md"
+        "relative flex aspect-square cursor-pointer items-center bg-white justify-center rounded-md"
       }
     >
       {({ selected }) => (
         <div>
-          <span className=" absolute size-[100px] aspect-square inset-0 overflow-hidden rounded-md">
+          <span className=" absolute h-full w-full aspect-square inset-0 overflow-hidden rounded-md">
             {isLoading && (
-              <Skeleton className="aspect-square size-[100px] animate-pulse rounded-md" />
+              <Skeleton className="aspect-square h-full w-full animate-pulse rounded-md" />
             )}
 
             <Image

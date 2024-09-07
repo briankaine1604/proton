@@ -13,7 +13,7 @@ export const SmallNavbar = () => {
   useEffect(() => {
     // Close the sheet when the path changes
     setIsOpen(false);
-  }, [pathname]); // Trigger effect when pathname changes
+  }, [pathname]);
 
   return (
     <Sheet open={isOpen} onOpenChange={setIsOpen}>

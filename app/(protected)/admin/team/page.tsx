@@ -21,8 +21,8 @@ const Projects = async () => {
     createdAt: format(item.createdAt, "MMMM do, yyyy"),
   }));
   return (
-    <div className="flex-col max-w-6xl mx-auto">
-      <div className="flex-1 p-8 pt-6 space-y-4">
+    <div className="flex-col mx-auto pb-20">
+      <div className="flex-1 pt-6 space-y-4">
         <TeamClient data={formattedTeam} />
       </div>
     </div>

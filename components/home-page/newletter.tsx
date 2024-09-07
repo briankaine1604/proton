@@ -24,11 +24,11 @@ export function Newsletter({}: Props) {
   const [successMessage, setSuccessMessage] = useState<string | null>(null);
   const [errorMessage, setErrorMessage] = useState<string | null>(null);
   const formSchema = z.object({
-    email: z.string().min(1).email("Invalid email format"),
+    email: z.string().min(1, "Email is required").email("Invalid email format"),
   });
 
   const form = useForm<z.infer<typeof formSchema>>({
-    mode: "onChange",
+    mode: "onSubmit",
     resolver: zodResolver(formSchema),
     defaultValues: {
       email: "",
@@ -36,19 +36,18 @@ export function Newsletter({}: Props) {
   });
 
   const onSubmit = async (data: z.infer<typeof formSchema>) => {
-    console.log("Submitting form", data);
     startTransition(() => {
       addSubscriber(data)
-        .then((data) => {
-          if (data?.error) {
-            setErrorMessage(data.error);
+        .then((response) => {
+          if (response?.error) {
+            setErrorMessage(response.error);
             setSuccessMessage(null);
-            console.log("Subscription error:", data.error);
-          } else if (data?.success) {
-            setSuccessMessage(data.success);
+            console.log("Subscription error:", response.error);
+          } else if (response?.success) {
+            setSuccessMessage(response.success);
             setErrorMessage(null);
             form.reset();
-            console.log("Subscription success:", data.success);
+            console.log("Subscription success:", response.success);
           }
         })
         .catch(() => console.log("Something went wrong"));
@@ -58,21 +57,21 @@ export function Newsletter({}: Props) {
   return (
     <div className="bg-white py-10">
       <Container className="text-black">
-        <div className="bg-gradient-to-r from-[#820001] to-[#630d0d] h-auto sm:h-[250px] w-full p-6 flex flex-wrap rounded-lg items-center justify-center gap-5">
-          <article className="max-w-full sm:max-w-[500px] text-center sm:text-left">
+        <div className="bg-gradient-to-r from-[#820001] to-[#630d0d] p-6 py-10 rounded-lg flex flex-col lg:flex-row items-center gap-x-10">
+          <article className="text-center lg:text-left max-w-full sm:max-w-[500px]">
             <Heading className="text-xl sm:text-2xl pb-4 text-white">
               Subscribe to Our Newsletter
             </Heading>
-            <span className="text-sm sm:text-lg text-white">
+            <p className="text-sm sm:text-lg text-white">
               Get the latest listings, market trends, and exclusive offers
               delivered straight to your inbox!
-            </span>
+            </p>
           </article>
           <div className="w-full sm:w-auto">
             <Form {...form}>
               <form
                 onSubmit={form.handleSubmit(onSubmit)}
-                className="flex flex-col sm:flex-row justify-center mt-4 sm:mt-0"
+                className="flex flex-col lg:flex-row gap-y-4 mt-4 sm:mt-0"
               >
                 <FormField
                   control={form.control}
@@ -83,18 +82,24 @@ export function Newsletter({}: Props) {
                         <input
                           {...field}
                           type="email"
-                          className="text-black px-4 py-3 w-full sm:w-auto sm:min-w-[250px] border-2 border-[#820001]/50 focus:border-[#820001] focus:ring-0 focus:outline-none transition-shadow rounded-t-md sm:rounded-l-lg sm:rounded-r-none"
+                          className="text-black px-5 py-3 w-full border-2 border-[#820001]/50 focus:border-[#820001] focus:ring-0 focus:outline-none transition-shadow rounded-md lg:rounded-l-lg lg:rounded-r-none"
                           placeholder="Enter your email address"
                         />
                       </FormControl>
+                      <FormMessage className=" lg:absolute text-center" />
                     </FormItem>
                   )}
                 />
                 <button
+                  type="submit"
                   disabled={isPending}
-                  className="bg-[#820001] text-white px-6 py-3 text-sm rounded-b-md sm:rounded-r-lg sm:rounded-l-none hover:bg-red-800 transition-colors"
+                  className="bg-[#820001] text-white px-10 py-3 text-sm rounded-md lg:rounded-r-lg lg:rounded-l-none hover:bg-red-800 transition-colors flex items-center justify-center"
                 >
-                  Subscribe
+                  {isPending ? (
+                    <span className="spinner-border animate-spin w-4 h-4 border-2 border-t-2 border-white rounded-full"></span>
+                  ) : (
+                    "Subscribe"
+                  )}
                 </button>
               </form>
               <div className="mt-2">
@@ -102,7 +107,7 @@ export function Newsletter({}: Props) {
                 {errorMessage && <FormError message={errorMessage} />}
               </div>
             </Form>
-            <p className="text-xs text-center mt-3 text-white">
+            {/* <p className="text-xs text-center mt-3 text-white">
               By subscribing, you agree to our{" "}
               <a href="#" className="underline">
                 Privacy Policy
@@ -111,7 +116,7 @@ export function Newsletter({}: Props) {
               <a href="#" className="underline">
                 Terms of Service
               </a>
-            </p>
+            </p> */}
           </div>
         </div>
       </Container>

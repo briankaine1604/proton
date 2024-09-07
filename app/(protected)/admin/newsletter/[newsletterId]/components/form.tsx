@@ -1,4 +1,5 @@
 "use client";
+import { DeleteImage } from "@/actions/deleteImage";
 import Tiptap from "@/components/blog/Tiptap";
 import Container from "@/components/MaxWidthWrapper";
 import { AlertModal } from "@/components/modals/alert-modal";
@@ -14,15 +15,12 @@ import { Input } from "@/components/ui/input";
 import { UploadDropzone } from "@/utils/uploadthing";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { BlogPost } from "@prisma/client";
+import NextImage from "next/image";
 import { useParams, useRouter } from "next/navigation";
 import { useState, useTransition } from "react";
 import { useForm } from "react-hook-form";
 import { toast } from "sonner";
 import { z } from "zod";
-import { CreateBlog } from "../../components/server/create-blog";
-import NextImage from "next/image";
-import { UpdateBlog } from "../../components/server/update-blog";
-import { DeleteImage } from "@/actions/deleteImage";
 
 interface BlogPostProps {
   initialData: BlogPost | null;
@@ -74,38 +72,7 @@ export const BlogForm = ({ initialData }: BlogPostProps) => {
     });
   };
 
-  const onSubmit = (data: z.infer<typeof BlogSchema>) => {
-    startTransition(() => {
-      if (initialData) {
-        const blogId = Array.isArray(params.blogId)
-          ? params.blogId[0]
-          : params.blogId;
-        UpdateBlog({ id: blogId, value: data })
-          .then((res) => {
-            if (res.error) {
-              toast.error(res.error);
-            } else if (res.success) {
-              toast.success(res.success);
-              router.push("/admin/blog");
-              router.refresh();
-            }
-          })
-          .catch(() => toast.error("Something went wrong"));
-      } else {
-        CreateBlog(data)
-          .then((res) => {
-            if (res.error) {
-              toast.error(res.error);
-            } else if (res.success) {
-              toast.success(res.success);
-              router.push("/admin/blog");
-              router.refresh();
-            }
-          })
-          .catch(() => toast.error("Something went wrong"));
-      }
-    });
-  };
+  const onSubmit = (data: z.infer<typeof BlogSchema>) => {};
 
   return (
     <>

@@ -1,22 +1,20 @@
+import { AlertModal } from "@/components/modals/alert-modal";
+import { Button } from "@/components/ui/button";
 import {
   DropdownMenu,
-  DropdownMenuTrigger,
   DropdownMenuContent,
   DropdownMenuItem,
   DropdownMenuLabel,
+  DropdownMenuTrigger,
 } from "@/components/ui/dropdown-menu";
-import { Button } from "@/components/ui/button";
-import { Copy, Delete, Edit, MoreHorizontal, Trash } from "lucide-react";
+import { Copy, Edit, MoreHorizontal, Trash } from "lucide-react";
 import { useParams, useRouter } from "next/navigation";
-import axios from "axios";
 import { useState, useTransition } from "react";
-import { AlertModal } from "@/components/modals/alert-modal";
 import { toast } from "sonner";
-import { DeleteBlog } from "./server/delete-blog";
-import { BlogPostColumn } from "./columns";
+import { NewsletterColumn } from "./columns";
 
 interface CellActionProps {
-  data: BlogPostColumn;
+  data: NewsletterColumn;
 }
 
 export const CellAction: React.FC<CellActionProps> = ({ data }) => {
@@ -29,29 +27,7 @@ export const CellAction: React.FC<CellActionProps> = ({ data }) => {
     navigator.clipboard.writeText(id);
     toast.success("User Id is copied to the keyboard");
   };
-  const onDelete = async () => {
-    try {
-      setIsLoading(true);
-      startTransition(() => {
-        DeleteBlog(data.id)
-          .then((data) => {
-            if (data.error) {
-              toast.error("Failed to delete blog");
-            }
-            if (data.success) {
-              toast.success("Blog deleted");
-            }
-          })
-          .catch(() => toast.error("Something went wrong"));
-      });
-      router.refresh();
-    } catch (error) {
-      toast.error("Something went wrong");
-    } finally {
-      setIsLoading(false);
-      setOpen(false);
-    }
-  };
+  const onDelete = async () => {};
   return (
     <>
       <AlertModal

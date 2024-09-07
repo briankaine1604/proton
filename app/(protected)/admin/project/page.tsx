@@ -20,7 +20,7 @@ const Projects = async () => {
     inStock: item.inStock,
   }));
   return (
-    <div className="flex-col  mx-auto">
+    <div className="flex-col mx-auto pb-20">
       <div className="flex-1 pt-6 space-y-4">
         <ProjectClient data={formattedProjects} />
       </div>

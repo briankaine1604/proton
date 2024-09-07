@@ -36,3 +36,19 @@ export type Team = {
   role: string;
   image: string;
 };
+
+export type ExternalLinks = {
+  id: string;
+  link: string;
+};
+export type FAQS = {
+  id: string;
+  question: string;
+  answer: string;
+};
+
+export type News = {
+  id: string;
+  link: string | null;
+  content: string;
+};

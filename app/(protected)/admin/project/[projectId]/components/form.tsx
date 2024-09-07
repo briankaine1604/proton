@@ -29,6 +29,7 @@ import { CreateProject } from "../../components/server/create-project";
 import { CurrencyInputter } from "@/components/currencyInput";
 import { UpdateProject } from "../../components/server/update-project";
 import PathTrail from "@/components/Breadcrumb";
+import { Loader2 } from "lucide-react";
 
 interface ProjectType {
   id: string;
@@ -112,33 +113,34 @@ export const ProjectForm = ({ initialData }: ProjectProps) => {
     });
   };
 
-  const onSubmit = (data: z.infer<typeof ProjectSchema>) => {
-    startTransition(() => {
+  const onSubmit = async (data: z.infer<typeof ProjectSchema>) => {
+    setIsLoading(true); // Move outside of startTransition for immediate state update
+
+    try {
       if (initialData) {
-        UpdateProject({ id: initialData.id, values: data }).then((res) => {
-          if (res.error) {
-            toast.error(res.error);
-          } else if (res.success) {
-            toast.success(res.success);
-            router.push("/admin/project");
-            router.refresh();
-          }
-        });
+        const res = await UpdateProject({ id: initialData.id, values: data });
+        if (res.error) {
+          toast.error(res.error);
+        } else if (res.success) {
+          toast.success(res.success);
+          router.push("/admin/project");
+          router.refresh();
+        }
       } else {
-        CreateProject(data)
-          .then((res) => {
-            if (res.error) {
-              toast.error(res.error);
-            } else if (res.success) {
-              toast.success(res.success);
-              router.push("/admin/project");
-              router.refresh();
-            }
-          })
-          .catch(() => toast.error("Something went wrong"));
+        const res = await CreateProject(data);
+        if (res.error) {
+          toast.error(res.error);
+        } else if (res.success) {
+          toast.success(res.success);
+          router.push("/admin/project");
+          router.refresh();
+        }
       }
-    });
-    console.log(data);
+    } catch (error) {
+      toast.error("Something went wrong");
+    } finally {
+      setIsLoading(false); // Always reset isLoading state after async operations
+    }
   };
 
   return (
@@ -295,9 +297,9 @@ export const ProjectForm = ({ initialData }: ProjectProps) => {
                       />
                     </FormControl>
                     <div className="space-y-1 leading-none">
-                      <FormLabel>Featured</FormLabel>
+                      <FormLabel>In stock</FormLabel>
                       <FormDescription>
-                        This Project will appear on the projects page.
+                        This will specify if project is instock or not
                       </FormDescription>
                     </div>
                   </FormItem>
@@ -305,8 +307,12 @@ export const ProjectForm = ({ initialData }: ProjectProps) => {
               />
 
               <div className="flex justify-end">
-                <Button type="submit" className="mt-4 w-[100px]">
-                  Save
+                <Button
+                  type="submit"
+                  className="mt-4 w-[100px] flex items-center gap-x-2"
+                >
+                  <span>Save</span>
+                  {isLoading && <Loader2 className=" animate-spin size-4" />}
                 </Button>
               </div>
             </form>
