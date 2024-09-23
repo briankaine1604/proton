@@ -25,7 +25,7 @@ export const addSubscriber = async (data: any) => {
       }
     );
 
-    console.log("Subscriber added:", response.data);
+    // console.log("Subscriber added:", response.data);
     return {
       success: "You've subscribed to our newsletter!",
       data: response.data,

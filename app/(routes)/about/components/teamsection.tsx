@@ -3,9 +3,9 @@
 import { getTeams } from "@/actions/get-teams";
 import { Team } from "@/types";
 import { Description, Dialog, DialogTitle } from "@headlessui/react"; // Headless UI for the modal
-import axios from "axios";
 import Image from "next/image";
 import { useEffect, useState } from "react";
+import { EmptyState } from "@/components/emptystate"; // Import EmptyState
 
 const Skeleton = () => (
   <div className="bg-white shadow-lg rounded-lg overflow-hidden p-6 animate-pulse">
@@ -48,15 +48,18 @@ export const TeamSection = () => {
         </p>
       </header>
 
-      <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
-        {loading ? (
-          <>
-            <Skeleton />
-            <Skeleton />
-            <Skeleton />
-          </>
-        ) : (
-          team.map((member) => (
+      {/* Conditional rendering for EmptyState or grid */}
+      {loading ? (
+        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
+          <Skeleton />
+          <Skeleton />
+          <Skeleton />
+        </div>
+      ) : team.length === 0 ? (
+        <EmptyState /> // Render EmptyState when there are no team members
+      ) : (
+        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
+          {team.map((member) => (
             <div
               key={member.id}
               className="bg-white shadow-lg rounded-lg overflow-hidden p-6 hover:shadow-2xl transition-shadow duration-300"
@@ -87,9 +90,9 @@ export const TeamSection = () => {
                 </button>
               )}
             </div>
-          ))
-        )}
-      </div>
+          ))}
+        </div>
+      )}
 
       {/* Full Bio Modal */}
       {selectedMember && (
@@ -116,16 +119,6 @@ export const TeamSection = () => {
           </div>
         </Dialog>
       )}
-
-      {/* <footer className="mt-16 text-center">
-        <p className="text-gray-700">
-          Interested in learning more about our team or working with us?{" "}
-          <a href="/contact" className="text-blue-600 hover:underline">
-            Contact us today
-          </a>
-          .
-        </p>
-      </footer> */}
     </div>
   );
 };

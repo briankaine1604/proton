@@ -36,8 +36,13 @@ export const VideoLinksSection = () => {
     <Container>
       <section className="pb-8">
         <div className="container mx-auto px-4">
-          <h2 className="text-4xl font-bold text-center mb-6">Latest Videos</h2>
-          <div className="grid grid-cols-1 md:grid-cols-2  gap-6">
+          {/* Only show the heading if there are links or loading */}
+          {(links.length > 0 || loading) && (
+            <h2 className="text-4xl font-bold text-center mb-6">
+              Latest Videos
+            </h2>
+          )}
+          <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
             {loading
               ? Array.from({ length: 4 }).map((_, index) => (
                   <div
@@ -51,7 +56,8 @@ export const VideoLinksSection = () => {
                     </div>
                   </div>
                 ))
-              : links.map((link) => {
+              : links.length > 0 &&
+                links.map((link) => {
                   const videoId = getYouTubeId(link.link);
 
                   return (

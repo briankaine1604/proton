@@ -18,23 +18,22 @@ import {
   FormField,
   FormItem,
   FormLabel,
-  FormMessage
+  FormMessage,
 } from "../ui/form";
 import { Reset } from "@/actions/resetPassword";
 import { useSearchParams } from "next/navigation";
 import { newPassword } from "../../actions/new-password";
 
 export const NewPasswordForm = () => {
- 
-  const params= useSearchParams()
-  const token = params.get("token")
+  const params = useSearchParams();
+  const token = params.get("token");
   const [isPending, startTransition] = useTransition();
   const [error, setError] = useState<string | undefined>();
   const [success, setSuccess] = useState<string | undefined>();
   const form = useForm<z.infer<typeof NewPasswordSchema>>({
     resolver: zodResolver(NewPasswordSchema),
     defaultValues: {
-      password: ""
+      password: "",
     },
   });
 
@@ -42,9 +41,9 @@ export const NewPasswordForm = () => {
     setError("");
     setSuccess("");
 
-    console.log(values)
+    // console.log(values)
     startTransition(() => {
-      newPassword(values,token).then((data) => {
+      newPassword(values, token).then((data) => {
         setError(data?.error);
         setSuccess(data?.success);
       });
@@ -56,7 +55,6 @@ export const NewPasswordForm = () => {
       headerLabel="Enter a new password"
       backButtonHref="/auth/login"
       backButtonLabel="Back to login"
-      
     >
       <Form {...form}>
         <form onSubmit={form.handleSubmit(onSubmit)} className=" space-y-6">
@@ -79,9 +77,8 @@ export const NewPasswordForm = () => {
                 </FormItem>
               )}
             />
-           
           </div>
-          <FormError message={error } />
+          <FormError message={error} />
           <FormSuccess message={success} />
           <Button type="submit" className="w-full" disabled={isPending}>
             Reset password

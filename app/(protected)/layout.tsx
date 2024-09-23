@@ -33,8 +33,8 @@ export default function Layout({
   const [hasAccess, setHasAccess] = useState(false);
 
   useEffect(() => {
-    console.log("Session:", session);
-    console.log("Status:", status);
+    // console.log("Session:", session);
+    // console.log("Status:", status);
 
     if (status === "loading") return; // Wait for session to load
 

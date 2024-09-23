@@ -20,6 +20,7 @@ import axios from "axios";
 import Container from "@/components/MaxWidthWrapper";
 import { useRouter } from "next/navigation";
 import PathTrail from "@/components/Breadcrumb";
+import { Textarea } from "@/components/ui/textarea";
 
 const NewsSchema = z.object({
   link: z.string().nullable().optional(), // Allowing null values
@@ -83,7 +84,7 @@ export const LinkForm = ({
               <FormItem>
                 <FormLabel>Content</FormLabel>
                 <FormControl>
-                  <Input {...field} placeholder="Add content here" />
+                  <Textarea {...field} placeholder="Add content here" />
                 </FormControl>
                 <FormMessage />
               </FormItem>

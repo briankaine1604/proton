@@ -14,6 +14,7 @@ export async function GET() {
       orderBy: {
         createdAt: "desc",
       },
+      where: { published: true },
       take: 4, // Hard limit to 4 posts
     });
 

@@ -1,4 +1,5 @@
 import { getProjects } from "@/actions/get-projects";
+import { EmptyState } from "@/components/emptystate";
 import Container from "@/components/MaxWidthWrapper";
 import ProjectCard from "@/components/project-card";
 
@@ -19,11 +20,16 @@ const Page = async () => {
           </p>
           <div className="mt-8 w-16 h-1 mx-auto bg-[#820001] rounded"></div>
         </div>
-        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8 mb-14">
-          {projects.map((project) => (
-            <ProjectCard key={project.id} project={project} />
-          ))}
-        </div>
+
+        {projects.length === 0 ? (
+          <EmptyState />
+        ) : (
+          <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8 mb-14">
+            {projects.map((project) => (
+              <ProjectCard key={project.id} project={project} />
+            ))}
+          </div>
+        )}
       </Container>
     </main>
   );

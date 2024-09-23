@@ -8,6 +8,7 @@ import {
 import { FAQS } from "@/types";
 import Container from "@/components/MaxWidthWrapper";
 import { ChevronDownIcon } from "lucide-react";
+import { EmptyState } from "@/components/emptystate";
 
 interface FAQClientProps {
   faqs: FAQS[];
@@ -27,35 +28,42 @@ const FAQClient: React.FC<FAQClientProps> = ({ faqs }) => {
             </p>
           </header>
 
+          {/* Conditional Rendering for FAQs or Empty State */}
           <div className="space-y-6">
-            {faqs.map((faq) => (
-              <Disclosure key={faq.id}>
-                {({ open }) => (
-                  <div className="bg-white border border-gray-300 rounded-lg shadow-md">
-                    <DisclosureButton
-                      className={`flex justify-between items-center w-full px-6 py-4 text-left border-b border-gray-300 rounded-t-lg transition-all duration-300 ${
-                        open
-                          ? "bg-[#820001] text-white"
-                          : "bg-gray-50 text-gray-800 hover:bg-gray-100"
-                      }`}
-                    >
-                      <h2 className="font-semibold text-lg">{faq.question}</h2>
-                      <ChevronDownIcon
-                        className={`h-6 w-6 transition-transform duration-300 ${
-                          open ? "transform rotate-180" : "text-gray-500"
+            {faqs.length === 0 ? (
+              <EmptyState /> // Render EmptyState if no FAQs are available
+            ) : (
+              faqs.map((faq) => (
+                <Disclosure key={faq.id}>
+                  {({ open }) => (
+                    <div className="bg-white border border-gray-300 rounded-lg shadow-md">
+                      <DisclosureButton
+                        className={`flex justify-between items-center w-full px-6 py-4 text-left border-b border-gray-300 rounded-t-lg transition-all duration-300 ${
+                          open
+                            ? "bg-[#820001] text-white"
+                            : "bg-gray-50 text-gray-800 hover:bg-gray-100"
                         }`}
-                      />
-                    </DisclosureButton>
-                    <DisclosurePanel className="p-6 bg-gray-50">
-                      <article
-                        className="prose prose-lg text-gray-700 leading-relaxed"
-                        dangerouslySetInnerHTML={{ __html: faq.answer }}
-                      />
-                    </DisclosurePanel>
-                  </div>
-                )}
-              </Disclosure>
-            ))}
+                      >
+                        <h2 className="font-semibold text-lg">
+                          {faq.question}
+                        </h2>
+                        <ChevronDownIcon
+                          className={`h-6 w-6 transition-transform duration-300 ${
+                            open ? "transform rotate-180" : "text-gray-500"
+                          }`}
+                        />
+                      </DisclosureButton>
+                      <DisclosurePanel className="p-6 bg-gray-50">
+                        <article
+                          className="prose prose-lg text-gray-700 leading-relaxed"
+                          dangerouslySetInnerHTML={{ __html: faq.answer }}
+                        />
+                      </DisclosurePanel>
+                    </div>
+                  )}
+                </Disclosure>
+              ))
+            )}
           </div>
         </section>
       </Container>

@@ -14,7 +14,7 @@ export async function GET(
 
   try {
     const blog = await db.blogPost.findUnique({
-      where: { slug },
+      where: { slug, published: true },
       include: {
         categories: true,
       },

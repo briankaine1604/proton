@@ -7,6 +7,7 @@ import { useEffect, useState } from "react";
 import { getCategories } from "@/actions/getCategories";
 import Container from "@/components/MaxWidthWrapper";
 import { BlogCard } from "@/components/blog-card";
+import { EmptyState } from "@/components/emptystate"; // Import EmptyState
 
 const Page = () => {
   const [blogs, setBlogs] = useState<BlogPost[]>([]);
@@ -88,14 +89,24 @@ const Page = () => {
           </select>
         </div>
 
-        {/* Render Skeletons if loading */}
-        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8 mb-14">
-          {loading
-            ? Array.from({ length: 6 }).map((_, index) => (
-                <BlogCard key={index} isLoading={true} />
-              ))
-            : blogs.map((blog) => <BlogCard key={blog.id} blog={blog} />)}
-        </div>
+        {/* Render Skeletons if loading or EmptyState if no blogs */}
+        {loading ? (
+          <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8 mb-14">
+            {Array.from({ length: 6 }).map((_, index) => (
+              <BlogCard key={index} isLoading={true} />
+            ))}
+          </div>
+        ) : blogs.length === 0 ? (
+          <div className="mb-14">
+            <EmptyState /> {/* Render EmptyState if no blogs are available */}
+          </div>
+        ) : (
+          <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8 mb-14">
+            {blogs.map((blog) => (
+              <BlogCard key={blog.id} blog={blog} />
+            ))}
+          </div>
+        )}
       </Container>
     </main>
   );

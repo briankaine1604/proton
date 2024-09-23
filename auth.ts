@@ -31,7 +31,7 @@ export const {
 
       if (user.id) {
         const existingUser = await getUserbyId(user.id);
-        //prevent sign in without email verification
+        // prevent sign-in without email verification
         if (!existingUser?.emailVerified) return false;
 
         if (existingUser.isTwoFactorEnabled) {
@@ -43,7 +43,7 @@ export const {
             return false;
           }
 
-          //delete 2fa
+          // delete 2fa
           await db.twoFactorConfirmation.delete({
             where: {
               id: twoFactorConfirmation.id,
@@ -55,7 +55,6 @@ export const {
       return true;
     },
     async session({ token, session }) {
-      // console.log({ sessionToken: token });
       if (token.sub && session.user) {
         session.user.id = token.sub;
       }
@@ -95,6 +94,9 @@ export const {
     },
   },
   adapter: PrismaAdapter(db),
-  session: { strategy: "jwt" },
+  session: {
+    strategy: "jwt",
+    maxAge: 24 * 60 * 60, // 24 hours in seconds
+  },
   ...authConfig,
 });

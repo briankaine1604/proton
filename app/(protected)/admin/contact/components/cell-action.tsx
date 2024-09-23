@@ -51,7 +51,7 @@ export const CellAction: React.FC<CellActionProps> = ({ data }) => {
       const response = await axios.delete(`/api/contact/${data.id}`);
 
       if (response.status === 200) {
-        toast.success("Contactdeleted");
+        toast.success("Contact deleted");
       } else {
         toast.error("Failed to contact link");
       }

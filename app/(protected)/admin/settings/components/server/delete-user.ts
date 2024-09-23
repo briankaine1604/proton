@@ -8,12 +8,27 @@ export async function DeleteUser(userId: string) {
   // Get the current authenticated user
   const user = await currentUser();
   if (!user?.id) {
-    throw new Error("Not authenticated");
+    return { error: "Not authenticated" };
   }
 
   // Check if the user has admin privileges
   if (user.role !== UserRole.ADMIN) {
-    throw new Error("Only admins can delete users");
+    return { error: "Only admins can delete users" };
+  }
+
+  // Fetch the user to be deleted
+  const userToDelete = await db.user.findUnique({
+    where: { id: userId },
+    select: { email: true },
+  });
+
+  if (!userToDelete) {
+    return { error: "User not found" };
+  }
+
+  // Ensure the root user cannot be deleted
+  if (userToDelete.email === "admin@protonrealestate.com") {
+    return { error: "Root user cannot be deleted" };
   }
 
   try {
@@ -21,9 +36,6 @@ export async function DeleteUser(userId: string) {
     await db.user.delete({
       where: { id: userId },
     });
-
-    // Optionally handle token invalidation here if needed
-    // Example: Update token blacklist or handle token revocation
 
     return { success: "User deleted successfully" };
   } catch (error) {

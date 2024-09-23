@@ -9,7 +9,7 @@ export const getBlogs = async (query: string = ""): Promise<BlogPost[]> => {
   try {
     // Make the API request with the query parameters
     const res = await axios.get(`${URL}?${query}`);
-    console.log(res.data);
+    // console.log(res.data);
     return res.data;
   } catch (error) {
     console.error("Failed to fetch blogs", error);
@@ -21,7 +21,7 @@ export const getHomeBlogs = async (query: string = ""): Promise<BlogPost[]> => {
   try {
     // Make the API request with the query parameters
     const res = await axios.get("/api/home-blogs");
-    console.log(res.data);
+    // console.log(res.data);
     return res.data;
   } catch (error) {
     console.error("Failed to fetch blogs", error);

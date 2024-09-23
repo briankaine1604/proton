@@ -9,6 +9,7 @@ export async function GET(req: NextRequest) {
 
     const blogs = await db.blogPost.findMany({
       where: {
+        published: true,
         AND: [
           search ? { title: { contains: search } } : {},
           category

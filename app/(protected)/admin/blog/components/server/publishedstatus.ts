@@ -7,7 +7,7 @@ export async function updateBlogPublishedStatus(
   published: boolean
 ) {
   try {
-    console.log({ id: id, p: published });
+    // console.log({ id: id, p: published });
     await db.blogPost.update({
       where: { id },
       data: { published },

@@ -60,7 +60,7 @@ export const ContactForm = () => {
       // Check if the submission was successful
       if (res.status === 200) {
         setSuccess("Form submitted successfully!");
-        console.log("Form data:", data);
+        // console.log("Form data:", data);
         form.reset();
       } else {
         setError("Failed to submit the form. Please try again.");
@@ -232,7 +232,7 @@ export const ContactForm = () => {
           />
 
           {/* File Upload */}
-          {renderFilePreview()}
+          {/* {renderFilePreview()} */}
 
           <FormSuccess message={success} />
           <FormError message={error} />
@@ -242,7 +242,7 @@ export const ContactForm = () => {
             type="submit"
             className="mt-4 flex items-center gap-x-2 w-full"
           >
-            <span>Save</span>
+            <span>Submit</span>
             {isLoading && <Loader2 className=" animate-spin size-4" />}
           </Button>
         </form>

@@ -3,7 +3,6 @@ import { render } from "@react-email/components";
 import { Resend } from "resend";
 
 const resend = new Resend(process.env.RESEND_API_KEY);
-console.log(resend);
 const domain = process.env.NEXT_PUBLIC_APP_URL;
 
 export const sendTwoFactorEmail = async (email: string, token: string) => {
@@ -22,7 +21,7 @@ export const sendTwoFactorEmail = async (email: string, token: string) => {
     return console.error({ error });
   }
 
-  console.log({ data });
+  // console.log({ data });
 };
 
 export const sendVerificationEmail = async (email: string, token: string) => {
@@ -47,7 +46,7 @@ export const sendVerificationEmail = async (email: string, token: string) => {
     return console.error({ error });
   }
 
-  console.log({ data });
+  // console.log({ data });
 };
 
 export const sendPasswordResetEmail = async (email: string, token: string) => {
@@ -71,5 +70,5 @@ export const sendPasswordResetEmail = async (email: string, token: string) => {
     return console.error({ error });
   }
 
-  console.log({ data });
+  // console.log({ data });
 };

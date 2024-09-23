@@ -22,9 +22,9 @@ export const ourFileRouter = {
     })
     .onUploadComplete(async ({ metadata, file }) => {
       // This code RUNS ON YOUR SERVER after upload
-      console.log("Upload complete for userId:", metadata.userId);
+      // console.log("Upload complete for userId:", metadata.userId);
 
-      console.log("file url", file.url);
+      // console.log("file url", file.url);
 
       // !!! Whatever is returned here is sent to the clientside `onClientUploadComplete` callback
       return { uploadedBy: metadata.userId };
@@ -39,7 +39,7 @@ export const ourFileRouter = {
       return { userId: user.id };
     })
     .onUploadComplete(async ({ metadata, file }) => {
-      console.log("Upload complete", metadata.userId);
+      // console.log("Upload complete", metadata.userId);
       return { uploadedBy: metadata.userId };
     }),
   fileUploader: f({
@@ -47,7 +47,7 @@ export const ourFileRouter = {
     "application/pdf": { maxFileSize: "4MB" },
     image: { maxFileSize: "4MB" },
   }).onUploadComplete(async ({ metadata, file }) => {
-    console.log("Upload complete", metadata);
+    // console.log("Upload complete", metadata);
   }),
   texteditor: f({
     image: { maxFileSize: "256MB", maxFileCount: 1 },
@@ -59,7 +59,7 @@ export const ourFileRouter = {
       return { userId: user.id };
     })
     .onUploadComplete(async ({ metadata, file }) => {
-      console.log("Upload complete", metadata.userId);
+      // console.log("Upload complete", metadata.userId);
     }),
 } satisfies FileRouter;
 

@@ -18,20 +18,18 @@ import {
   FormField,
   FormItem,
   FormLabel,
-  FormMessage
+  FormMessage,
 } from "../ui/form";
 import { Reset } from "@/actions/resetPassword";
 
 export const ResetForm = () => {
- 
-  
   const [isPending, startTransition] = useTransition();
   const [error, setError] = useState<string | undefined>();
   const [success, setSuccess] = useState<string | undefined>();
   const form = useForm<z.infer<typeof ResetSchema>>({
     resolver: zodResolver(ResetSchema),
     defaultValues: {
-      email: ""
+      email: "",
     },
   });
 
@@ -39,7 +37,7 @@ export const ResetForm = () => {
     setError("");
     setSuccess("");
 
-    console.log(values)
+    // console.log(values)
     startTransition(() => {
       Reset(values).then((data) => {
         setError(data?.error);
@@ -53,7 +51,6 @@ export const ResetForm = () => {
       headerLabel="Forgot your password?"
       backButtonHref="/auth/login"
       backButtonLabel="Back to login"
-      
     >
       <Form {...form}>
         <form onSubmit={form.handleSubmit(onSubmit)} className=" space-y-6">
@@ -76,9 +73,8 @@ export const ResetForm = () => {
                 </FormItem>
               )}
             />
-           
           </div>
-          <FormError message={error } />
+          <FormError message={error} />
           <FormSuccess message={success} />
           <Button type="submit" className="w-full" disabled={isPending}>
             Send reset Email

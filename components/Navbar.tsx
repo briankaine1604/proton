@@ -53,7 +53,8 @@ export default function Navbar() {
 
   return (
     <>
-      {announcementVisible && (
+      {/* Only show the announcement bar when there's news */}
+      {announcementVisible && news && (
         <div className="bg-[#820001]/70 text-white text-center py-2 px-4 w-full flex justify-center fixed top-0 z-50 backdrop-filter backdrop-blur-lg bg-opacity-40 h-14">
           <div className="flex justify-between items-center max-w-screen-xl mx-auto gap-x-2">
             {loading ? (
@@ -84,9 +85,10 @@ export default function Navbar() {
           </div>
         </div>
       )}
+
       <nav
         className={`h-16 py-2 items-center flex fixed w-full ${
-          announcementVisible ? "top-14" : "top-0"
+          announcementVisible && news ? "top-14" : "top-0"
         } z-40 transition-shadow duration-300 bg-[#e2e8f0] 
         ${isScrolled ? " border-b border-black/10 shadow-sm" : ""}
       `}
@@ -99,12 +101,11 @@ export default function Navbar() {
                 alt="Proton company logo"
                 width="100"
                 height="100"
-                className=""
               />
             </div>
           </Link>
           <div className="hidden md:flex">
-            <NavLinks className="gap-x-10 text-gray-800 transition-colors duration-300 " />
+            <NavLinks className="gap-x-10 text-gray-800 transition-colors duration-300" />
           </div>
           <div className="md:hidden">
             <MobileNav />

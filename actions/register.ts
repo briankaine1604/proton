@@ -15,6 +15,13 @@ export const register = async (values: z.infer<typeof RegisterSchema>) => {
   }
 
   const { email, password, name } = validatedFields.data;
+
+  // Restrict email to @protonrealestate.com domain
+  const emailDomain = email.split("@")[1];
+  if (emailDomain !== "protonrealestate.com") {
+    return { error: "Only @protonrealestate.com email addresses are allowed!" };
+  }
+
   const hashedPassword = await bcrypt.hash(password, 10);
 
   const existingUser = await getUserbyEmail(email);

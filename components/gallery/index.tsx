@@ -40,7 +40,7 @@ const Gallery: React.FC<GalleryProps> = ({ images }) => {
           {images.map((image) => (
             <TabPanel key={image.id}>
               <div
-                className="aspect-square relative w-full sm:rounded-lg overflow-hidden h-[400px] cursor-pointer"
+                className="aspect-square relative w-full sm:rounded-lg overflow-hidden h-[350px] cursor-pointer"
                 onClick={() => openModal(image)} // Open modal on click
               >
                 {isLoading && (

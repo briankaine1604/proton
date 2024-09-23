@@ -19,7 +19,7 @@ export function TeamsList() {
     const fetchProjects = async () => {
       try {
         const teamList = await getTeams();
-        console.log("TeamList", teamList);
+
         setTeams(teamList);
       } catch (error) {
         console.error("Failed to fetch team:", error);

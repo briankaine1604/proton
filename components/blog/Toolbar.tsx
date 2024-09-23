@@ -108,7 +108,7 @@ const Toolbar = ({ editor, content }: Props) => {
         >
           <AlignVerticalSpaceAround className="w-5 h-5" />
         </button> */}
-        <button
+        {/* <button
           onClick={(e) => {
             e.preventDefault();
             editor.chain().focus().toggleHeading({ level: 1 }).run();
@@ -146,7 +146,7 @@ const Toolbar = ({ editor, content }: Props) => {
           }
         >
           <Heading3 className="size-5" />
-        </button>
+        </button> */}
 
         <button
           onClick={(e) => {
@@ -224,7 +224,7 @@ const Toolbar = ({ editor, content }: Props) => {
             // Do something with the response
             if (res && res.length > 0) {
               // setImage(res);
-              console.log("The files: ", res);
+              // console.log("The files: ", res);
 
               // Get the URL of the first uploaded image
               const imageUrl = res[0].url;

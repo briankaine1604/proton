@@ -45,6 +45,7 @@ export const TeamMemberForm = ({
 }) => {
   const [image, setImage] = useState(initialData?.image || "");
   const [isLoading, setIsLoading] = useState(false);
+  const [isImageUploading, setIsImageUploading] = useState(false);
   const router = useRouter();
 
   const form = useForm<z.infer<typeof TeamMemberSchema>>({
@@ -161,10 +162,13 @@ export const TeamMemberForm = ({
                           setImage(imageUrl);
                           form.setValue("image", imageUrl);
                           toast.success("Upload completed");
+                          setIsImageUploading(false);
                         }}
                         onUploadError={(error: Error) => {
                           toast.error("Image upload failed");
+                          setIsImageUploading(false);
                         }}
+                        onUploadBegin={() => setIsImageUploading(true)}
                       />
                     </FormControl>
                     <FormMessage />
@@ -200,9 +204,12 @@ export const TeamMemberForm = ({
             <Button
               type="submit"
               className="mt-4 w-[100px] flex items-center gap-x-2"
+              disabled={isImageUploading || isLoading} // Disable while uploading or loading
             >
               <span>Save</span>
-              {isLoading && <Loader2 className="animate-spin size-4" />}
+              {(isLoading || isImageUploading) && (
+                <Loader2 className="animate-spin size-4" />
+              )}
             </Button>
           </div>
         </form>

@@ -1,12 +1,6 @@
-// This is your Prisma schema file,
-// learn more about it in the docs: https://pris.ly/d/prisma-schema
-
-// Looking for ways to speed up your queries, or scale easily with your serverless or edge functions?
-// Try Prisma Accelerate: https://pris.ly/cli/accelerate-init
-
 generator client {
-  provider = "prisma-client-js"
-  binaryTargets   = ["native"]
+  provider      = "prisma-client-js"
+  binaryTargets = ["native"]
 }
 
 datasource db {
@@ -14,51 +8,46 @@ datasource db {
   url      = env("DATABASE_URL")
 }
 
-enum UserRole{
-  ADMIN
-  USER
-  STAFF
-}
-
 model BlogPost {
-  id          String      @id @default(cuid())
-  title       String
-  subtitle    String?
-  coverImage  String
-  content     String      @db.LongText
-  createdAt   DateTime    @default(now())
-  updatedAt   DateTime    @updatedAt
-  published   Boolean     @default(false)
-  slug        String      @unique
-  categories  BlogPostCategory[]
+  id         String             @id @default(cuid())
+  title      String
+  subtitle   String?
+  coverImage String
+  content    String             @db.LongText
+  createdAt  DateTime           @default(now())
+  updatedAt  DateTime           @updatedAt
+  published  Boolean            @default(false)
+  slug       String             @unique
+  categories BlogPostCategory[]
 }
 
 model Category {
-  id          String            @id @default(cuid())
-  name        String
-  posts       BlogPostCategory[]
+  id    String             @id @default(cuid())
+  name  String
+  posts BlogPostCategory[]
 }
 
 model BlogPostCategory {
-  id          Int               @id @default(autoincrement())
-  blogPostId  String
-  categoryId  String
-  blogPost    BlogPost           @relation(fields: [blogPostId], references: [id], onDelete: Cascade)
-  category    Category           @relation(fields: [categoryId], references: [id], onDelete: Cascade)
+  id         Int      @id @default(autoincrement())
+  blogPostId String
+  categoryId String
+  blogPost   BlogPost @relation(fields: [blogPostId], references: [id], onDelete: Cascade)
+  category   Category @relation(fields: [categoryId], references: [id], onDelete: Cascade)
 
   @@unique([blogPostId, categoryId])
+  @@index([categoryId], map: "BlogPostCategory_categoryId_fkey")
 }
 
 model ContactForm {
-  id        String   @id @default(cuid())
-  name      String
-  email     String
-  phone     String?
-  message   String
+  id         String       @id @default(cuid())
+  name       String
+  email      String
+  phone      String?
+  message    String
   attachment String?
-  createdAt DateTime @default(now())
-  status    Status    @default(PENDING)
-  reviewers ReviewedBy[]
+  createdAt  DateTime     @default(now())
+  status     Status       @default(PENDING)
+  reviewers  ReviewedBy[]
 }
 
 model ReviewedBy {
@@ -66,31 +55,21 @@ model ReviewedBy {
   userId        String
   contactFormId String
   createdAt     DateTime    @default(now())
-  user          User        @relation(fields: [userId], references: [id], onDelete: Cascade)
   contactForm   ContactForm @relation(fields: [contactFormId], references: [id], onDelete: Cascade)
+  user          User        @relation(fields: [userId], references: [id], onDelete: Cascade)
+
   @@unique([userId, contactFormId])
+  @@index([contactFormId], map: "ReviewedBy_contactFormId_fkey")
 }
 
-
-
-enum Status {
-  PENDING
-  REVIEWED
-  RESPONDED
-}
-
-
-
-
-model TeamMember{
-  id          String   @id @default(cuid())
-  name         String
-  bio          String?     @db.Text
-  image       String
-  role String
-   createdAt    DateTime    @default(now())
-  updatedAt    DateTime    @updatedAt
-
+model TeamMember {
+  id        String   @id @default(cuid())
+  name      String
+  bio       String?  @db.Text
+  image     String
+  role      String
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
 }
 
 model FAQ {
@@ -101,121 +80,128 @@ model FAQ {
   updatedAt DateTime @updatedAt
 }
 
-
 model Project {
   id          String   @id @default(cuid())
-  address String? @db.Text
-  name         String
-  description  String      @db.Text
-  price        Decimal?     @db.Decimal(14, 2)
-  images       Image[]
-  createdAt    DateTime    @default(now())
-  updatedAt    DateTime    @updatedAt
-  inStock      Boolean     @default(true)
-   slug        String   @unique
- 
+  address     String?  @db.Text
+  name        String
+  description String   @db.Text
+  price       Decimal? @db.Decimal(14, 2)
+  createdAt   DateTime @default(now())
+  updatedAt   DateTime @updatedAt
+  inStock     Boolean  @default(true)
+  slug        String   @unique
+  images      Image[]
 }
 
-model ExternalLinks{
-   id          String   @id @default(cuid())
-   link String
-  createdAt    DateTime    @default(now())
-  updatedAt    DateTime    @updatedAt
+model ExternalLinks {
+  id        String   @id @default(cuid())
+  link      String
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
 }
 
-model Announcement{
-   id          String   @id @default(cuid())
-   link String?
-   content String
-  createdAt    DateTime    @default(now())
-  updatedAt    DateTime    @updatedAt
+model Announcement {
+  id        String   @id @default(cuid())
+  link      String?
+  content   String
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
 }
 
-model Newsletter{
-  id          String   @id @default(cuid())
-  name String
-  newsletterId String
-  content String @db.LongText
-  status String
+model Newsletter {
+  id            String    @id @default(cuid())
+  name          String
+  newsletterId  String
+  content       String    @db.LongText
+  status        String
   scheduledTime DateTime?
-   createdAt    DateTime    @default(now())
-  updatedAt    DateTime    @updatedAt
+  createdAt     DateTime  @default(now())
+  updatedAt     DateTime  @updatedAt
 }
 
 model Image {
-  id        String   @id @default(cuid())
+  id        String  @id @default(cuid())
   url       String
-  project   Project @relation(fields: [projectId], references: [id],onDelete: Cascade)
   projectId String
+  project   Project @relation(fields: [projectId], references: [id], onDelete: Cascade)
+
+  @@index([projectId], map: "Image_projectId_fkey")
 }
 
 model User {
-  id            String    @id @default(cuid())
-  name          String?
-  email         String?   @unique
-  emailVerified DateTime?
-  image         String?
-  password      String?
-  role          UserRole @default(USER)
-  accounts      Account[]
-  isTwoFactorEnabled Boolean @default(false)
+  id                    String                 @id @default(cuid())
+  name                  String?
+  email                 String?                @unique
+  emailVerified         DateTime?
+  image                 String?
+  password              String?
+  role                  UserRole               @default(USER)
+  isTwoFactorEnabled    Boolean                @default(false)
+  accounts              Account[]
+  reviews               ReviewedBy[]
   twoFactorConfirmation TwoFactorConfirmation?
-  reviews   ReviewedBy[]
 }
-
-
 
 model Account {
-  id                 String  @id @default(cuid())
-  userId             String
-  type               String
-  provider           String
-  providerAccountId  String
-  refresh_token      String?  @db.Text
-  access_token       String?  @db.Text
-  expires_at         Int?
-  token_type         String?
-  scope              String?
-  id_token           String?  @db.Text
-  session_state      String?
-
-  user User @relation(fields: [userId], references: [id], onDelete: Cascade)
+  id                String  @id @default(cuid())
+  userId            String
+  type              String
+  provider          String
+  providerAccountId String
+  refresh_token     String? @db.Text
+  access_token      String? @db.Text
+  expires_at        Int?
+  token_type        String?
+  scope             String?
+  id_token          String? @db.Text
+  session_state     String?
+  user              User    @relation(fields: [userId], references: [id], onDelete: Cascade)
 
   @@unique([provider, providerAccountId])
+  @@index([userId], map: "Account_userId_fkey")
 }
 
-model VerificationToken{
-  id String @id @default(cuid())
-  email String
-  token String @unique
+model VerificationToken {
+  id      String   @id @default(cuid())
+  email   String
+  token   String   @unique
   expires DateTime
 
-
-  @@unique([email,token])
+  @@unique([email, token])
 }
 
-model PasswordResetToken{
-  id String @id @default(cuid())
-  email String
-  token String @unique
+model PasswordResetToken {
+  id      String   @id @default(cuid())
+  email   String
+  token   String   @unique
   expires DateTime
 
-  @@unique([email,token])
+  @@unique([email, token])
 }
 
-model twoFactorToken{
-  id String @id @default(cuid())
-  email String
-  token String @unique
+model twoFactorToken {
+  id      String   @id @default(cuid())
+  email   String
+  token   String   @unique
   expires DateTime
 
-  @@unique([email,token])
+  @@unique([email, token])
 }
 
-model TwoFactorConfirmation{
-id String @id @default(cuid())
-userId String
-user User @relation(fields: [userId], references: [id], onDelete: Cascade)
+model TwoFactorConfirmation {
+  id     String @id @default(cuid())
+  userId String @unique
+  user   User   @relation(fields: [userId], references: [id], onDelete: Cascade)
+}
 
-@@unique([userId])
+enum UserRole {
+  ADMIN
+  USER
+  STAFF
+}
+
+enum Status {
+  PENDING
+  REVIEWED
+  RESPONDED
 }

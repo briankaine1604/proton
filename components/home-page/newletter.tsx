@@ -55,10 +55,11 @@ export function Newsletter({}: Props) {
   };
 
   return (
-    <div className="bg-white py-10">
+    <div className="bg-white py-10" id="newsletter">
       <Container className="text-black">
-        <div className="bg-gradient-to-r from-[#820001] to-[#630d0d] p-6 py-10 rounded-lg flex flex-col lg:flex-row items-center gap-x-10">
-          <article className="text-center lg:text-left max-w-full sm:max-w-[500px]">
+        <div className="bg-gradient-to-r from-[#820001] to-[#630d0d] p-6 py-10 rounded-lg flex flex-col lg:flex-row items-center gap-6 lg:gap-10">
+          {/* Text Section */}
+          <article className="text-center lg:text-left flex-1 max-w-full sm:max-w-[600px]">
             <Heading className="text-xl sm:text-2xl pb-4 text-white">
               Subscribe to Our Newsletter
             </Heading>
@@ -67,11 +68,13 @@ export function Newsletter({}: Props) {
               delivered straight to your inbox!
             </p>
           </article>
-          <div className="w-full sm:w-auto">
+
+          {/* Form Section */}
+          <div className="w-full lg:w-auto flex-1">
             <Form {...form}>
               <form
                 onSubmit={form.handleSubmit(onSubmit)}
-                className="flex flex-col lg:flex-row gap-y-4 mt-4 sm:mt-0"
+                className="flex flex-col lg:flex-row gap-y-4 lg:gap-y-0 mt-4 lg:mt-0"
               >
                 <FormField
                   control={form.control}
@@ -86,7 +89,7 @@ export function Newsletter({}: Props) {
                           placeholder="Enter your email address"
                         />
                       </FormControl>
-                      <FormMessage className=" lg:absolute text-center" />
+                      <FormMessage className="text-center lg:text-left" />
                     </FormItem>
                   )}
                 />
@@ -107,16 +110,6 @@ export function Newsletter({}: Props) {
                 {errorMessage && <FormError message={errorMessage} />}
               </div>
             </Form>
-            {/* <p className="text-xs text-center mt-3 text-white">
-              By subscribing, you agree to our{" "}
-              <a href="#" className="underline">
-                Privacy Policy
-              </a>{" "}
-              and{" "}
-              <a href="#" className="underline">
-                Terms of Service
-              </a>
-            </p> */}
           </div>
         </div>
       </Container>

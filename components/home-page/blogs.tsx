@@ -4,9 +4,8 @@ import React, { useEffect, useState } from "react";
 import Container from "../MaxWidthWrapper";
 import Heading from "../heading";
 import { BlogPost } from "@/types";
-import { getNewsArticles } from "@/actions/getNewsArticles";
-import { BlogCard } from "../blog-card";
 import { getHomeBlogs } from "@/actions/get-blogs";
+import { BlogCard } from "../blog-card";
 
 type Props = {};
 
@@ -30,27 +29,29 @@ export function Blogs({}: Props) {
   }, []);
 
   return (
-    <div className="min-h-screen w-full pb-10">
+    <div
+      className={`w-full pb-10 ${
+        newsArticles.length > 0 || isLoading ? "min-h-screen" : ""
+      }`}
+    >
       <Container>
         <section>
-          <Heading className="text-4xl font-bold pb-10 text-center">
-            News and Articles
-          </Heading>
-          <div className="flex lg:justify-between flex-wrap gap-10 justify-center items-start">
+          {/* Only show the heading if there are articles or loading */}
+          {(newsArticles.length > 0 || isLoading) && (
+            <Heading className="text-4xl font-bold pb-10 text-center">
+              News and Articles
+            </Heading>
+          )}
+          <div className="grid md:grid-cols-2 lg:gap-20 gap-10">
             {isLoading
               ? Array.from({ length: 2 }).map((_, index) => (
-                  <div
-                    key={index}
-                    className="w-full md:w-[350px] lg:w-[400px] xl:w-[450px]"
-                  >
+                  <div key={index} className="w-full">
                     <BlogCard isLoading={true} />
                   </div>
                 ))
-              : newsArticles.map((article) => (
-                  <div
-                    key={article.id}
-                    className="w-full md:w-[350px] lg:w-[400px] xl:w-[450px]"
-                  >
+              : newsArticles.length > 0 &&
+                newsArticles.map((article) => (
+                  <div key={article.id} className="w-full">
                     <BlogCard blog={article} />
                   </div>
                 ))}

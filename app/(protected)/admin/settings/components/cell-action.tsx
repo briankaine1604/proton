@@ -34,18 +34,17 @@ export const CellAction: React.FC<CellActionProps> = ({ data }) => {
       setIsLoading(true);
       startTransition(() => {
         DeleteUser(data.id)
-          .then((data) => {
-            if (data.error) {
-              toast.error("Failed to delete user");
+          .then((res) => {
+            if (res.error) {
+              toast.error(res.error);
             }
-            if (data.success) {
-              toast.success("User deleted");
+            if (res.success) {
+              toast.success(res.success);
             }
           })
           .catch(() => toast.error("Something went wrong"));
       });
       router.refresh();
-      toast.success("User deleted");
     } catch (error) {
       toast.error("Something went wrong");
     } finally {
