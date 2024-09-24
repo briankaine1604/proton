@@ -64,16 +64,18 @@ export function ProjectsList() {
           ) : (
             <Swiper
               modules={[Pagination, Navigation, Autoplay]}
-              spaceBetween={20}
+              spaceBetween={projects.length === 1 ? 0 : 20} // No space between if it's the only project
               slidesPerView={projects.length === 1 ? 1 : 1.3} // Show 1 slide if there's only one project
-              centeredSlides={false}
+              centeredSlides={projects.length === 1} // Center the slide if there's only one project
               pagination={{ clickable: true }}
-              navigation
+              navigation={projects.length > 1} // Disable navigation if there's only one project
               autoplay={{
                 delay: 5000,
                 disableOnInteraction: false,
               }}
-              className="image-carousel"
+              className={`image-carousel ${
+                projects.length === 1 ? "w-2/3 mx-auto" : ""
+              }`} // Apply different width for one project
             >
               {projects.map((project) => (
                 <SwiperSlide

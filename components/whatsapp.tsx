@@ -9,7 +9,10 @@ const WhatsAppButton: React.FC = () => {
         target="_blank"
         rel="noopener noreferrer"
         aria-label="Chat with us on WhatsApp"
-        className="flex items-center justify-center w-14 h-14 md:w-auto md:px-4 md:py-2 bg-green-700 rounded-full shadow-lg hover:bg-green-800 transition-colors"
+        className="flex items-center justify-center w-14 h-14 md:w-auto md:px-4 md:py-2 
+                   bg-gradient-to-r from-green-900 via-green-800 to-green-700 
+                   rounded-full shadow-lg hover:from-green-800 hover:via-green-700 hover:to-green-600 
+                   transition-colors"
       >
         <Image
           src="https://upload.wikimedia.org/wikipedia/commons/6/6b/WhatsApp.svg"

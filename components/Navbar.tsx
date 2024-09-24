@@ -95,7 +95,7 @@ export default function Navbar() {
       >
         <Container className="flex items-center justify-between h-full px-4">
           <Link href={"/"}>
-            <div className="flex items-center">
+            <div className="">
               <Image
                 src="/logo.svg"
                 alt="Proton company logo"

@@ -1,14 +1,7 @@
 "use client";
+
 import React, { useEffect, useState } from "react";
-import {
-  Sheet,
-  SheetContent,
-  SheetDescription,
-  SheetHeader,
-  SheetTitle,
-  SheetTrigger,
-} from "@/components/ui/sheet";
-import { Button } from "./ui/button";
+import { Sheet, SheetContent, SheetTrigger } from "@/components/ui/sheet";
 import { Menu } from "lucide-react";
 import NavLinks from "./NavLinks";
 import { usePathname } from "next/navigation";
@@ -24,6 +17,7 @@ export default function MobileNav({}: Props) {
   useEffect(() => {
     setIsOpen(false);
   }, [pathname]);
+
   return (
     <Sheet open={isOpen} onOpenChange={setIsOpen}>
       <SheetTrigger>
@@ -33,18 +27,21 @@ export default function MobileNav({}: Props) {
         side={"right"}
         className="w-full h-full bg-gradient-to-b via-[#f7f8fa] to-white from-[#e2e8f0]"
       >
-        <Link href={"/"}>
-          <div className="flex items-center mt-10 mb-10">
-            <Image
-              src="/logo.svg"
-              alt="Proton company logo"
-              width="100"
-              height="100"
-              className=""
-            />
+        <Link href="/">
+          <div className="flex justify-center items-center">
+            <div className="w-[100px] h-[100px] relative">
+              <Image
+                src="/logo.svg"
+                alt="Proton company logo"
+                width={100}
+                height={100}
+                layout="fixed" // Ensures the image does not change size while loading
+                className="object-contain"
+              />
+            </div>
           </div>
         </Link>
-        <NavLinks className=" gap-y-8" />
+        <NavLinks className="gap-y-8" />
       </SheetContent>
     </Sheet>
   );
