@@ -1,9 +1,10 @@
 "use client";
 
+import { useRouter } from "next/navigation"; // Import the router
 import { Navbar } from "@/components/admin/Navbar";
 import { Sidebar } from "@/components/admin/Sidebar";
 import { cn } from "@/lib/utils";
-import { useSession } from "next-auth/react";
+import { useSession, getSession } from "next-auth/react";
 import { useEffect, useState } from "react";
 import { UserRole } from "@prisma/client";
 import { Loader } from "lucide-react";
@@ -31,30 +32,36 @@ export default function Layout({
   const { data: session, status } = useSession();
   const [loading, setLoading] = useState(true);
   const [hasAccess, setHasAccess] = useState(false);
+  const router = useRouter(); // Initialize the router
 
   useEffect(() => {
-    // console.log("Session:", session);
-    // console.log("Status:", status);
-
-    if (status === "loading") return; // Wait for session to load
-
-    if (session) {
-      const userRole = session.user.role;
-      if (userRole === UserRole.ADMIN || userRole === UserRole.STAFF) {
+    const checkAccess = async () => {
+      setLoading(true);
+      const updatedSession = await getSession(); // Force session revalidation
+      if (!updatedSession) {
+        router.push("/auth/login"); // Redirect to login if no session is found
+        return;
+      }
+      if (
+        updatedSession.user.role === UserRole.ADMIN ||
+        updatedSession.user.role === UserRole.STAFF
+      ) {
         setHasAccess(true); // User has the required role
       }
-      setLoading(false); // Session is loaded
-    } else {
-      setLoading(false); // Ensure loading is set to false even if there's no session
+      setLoading(false);
+    };
+
+    if (status !== "loading") {
+      checkAccess();
     }
-  }, [session, status]);
+  }, [status, router]);
 
   if (loading) {
     return (
       <div className="fixed inset-0 flex items-center justify-center bg-gray-100/90">
         <div className="bg-white p-10 rounded-lg shadow-lg flex items-center">
           <p>Checking your access rights</p>
-          <Loader className=" animate-spin size-5 ml-2" />
+          <Loader className="animate-spin size-5 ml-2" />
         </div>
       </div>
     );

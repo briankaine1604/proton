@@ -16,6 +16,11 @@ export const columns: ColumnDef<NewsColumn>[] = [
   {
     accessorKey: "content",
     header: "Info",
+    cell: ({ row }) => (
+      <div className="block max-w-[150px] lg:max-w-[250px] text-ellipsis overflow-hidden whitespace-nowrap">
+        {row.original.content}
+      </div>
+    ),
   },
   {
     accessorKey: "link",
@@ -26,18 +31,12 @@ export const columns: ColumnDef<NewsColumn>[] = [
           href={row.original.link}
           target="_blank"
           rel="noopener noreferrer"
-          style={{
-            maxWidth: "150px", // Set the maximum width here
-            display: "block", // Ensures the link behaves as a block element
-            overflow: "hidden", // Hide overflow
-            textOverflow: "ellipsis", // Add ellipsis for overflowed text
-            whiteSpace: "nowrap", // Prevent the text from wrapping
-          }}
+          className="block max-w-[150px] lg:max-w-[250px] text-ellipsis overflow-hidden whitespace-nowrap text-blue-500 underline"
         >
           {row.original.link}
         </a>
       ) : (
-        <span>No link available</span> // Or you can handle this in another way
+        <span>No link available</span>
       ),
   },
   {

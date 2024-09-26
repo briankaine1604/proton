@@ -35,7 +35,7 @@ export default function MobileNav({}: Props) {
                 alt="Proton company logo"
                 width={100}
                 height={100}
-                layout="fixed" // Ensures the image does not change size while loading
+                layout="fixed"
                 className="object-contain"
               />
             </div>

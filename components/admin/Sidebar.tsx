@@ -85,8 +85,10 @@ export function Sidebar({}: Props) {
             <Image
               src="/logo.svg"
               alt="Proton company logo"
-              width="100"
-              height="100"
+              width={100} // Define specific width
+              height={100} // Define specific height
+              className="object-contain w-[100px] h-[30px]" // Control size and appearance
+              priority // This ensures the image is preloaded (useful for logos)
             />
           </div>
         </Link>

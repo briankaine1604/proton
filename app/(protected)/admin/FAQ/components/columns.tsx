@@ -17,6 +17,11 @@ export const columns: ColumnDef<FAQColumn>[] = [
   {
     accessorKey: "question",
     header: "Question",
+    cell: ({ row }) => (
+      <div className="block max-w-[150px] lg:max-w-[250px] text-ellipsis overflow-hidden whitespace-nowrap">
+        {row.original.question}
+      </div>
+    ),
   },
   {
     accessorKey: "answer",

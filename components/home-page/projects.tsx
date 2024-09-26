@@ -66,7 +66,7 @@ export function ProjectsList() {
               modules={[Pagination, Navigation, Autoplay]}
               spaceBetween={projects.length === 1 ? 0 : 20}
               slidesPerView={projects.length === 1 ? 1 : 1.3}
-              centeredSlides={projects.length === 1}
+              centeredSlides={projects.length > 1} // Ensure centering only when multiple projects
               pagination={{ clickable: true }}
               navigation={projects.length > 1}
               autoplay={{
@@ -77,8 +77,14 @@ export function ProjectsList() {
                 640: {
                   // for mobile view
                   slidesPerView: 1,
-                  spaceBetween: 10,
-                  centeredSlides: true,
+                  spaceBetween: 0, // No space when there's a single project on mobile
+                  centeredSlides: true, // Keep centered on small screens
+                },
+                768: {
+                  // for tablets
+                  slidesPerView: projects.length === 1 ? 1 : 1.1,
+                  spaceBetween: projects.length === 1 ? 0 : 10,
+                  centeredSlides: projects.length === 1,
                 },
                 1024: {
                   // for tablets and up
@@ -88,8 +94,9 @@ export function ProjectsList() {
                 },
               }}
               className={`image-carousel ${
-                projects.length === 1 ? "w-2/3 mx-auto" : ""
+                projects.length === 1 ? "w-full mx-auto" : ""
               }`}
+              style={{ maxHeight: "450px" }} // Set maximum height for the Swiper on large screens
             >
               {projects.map((project) => (
                 <SwiperSlide

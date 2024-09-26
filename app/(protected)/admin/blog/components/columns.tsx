@@ -51,6 +51,11 @@ export const columns: ColumnDef<BlogPostColumn>[] = [
   {
     accessorKey: "title",
     header: "Title",
+    cell: ({ row }) => (
+      <div className="max-w-[150px] lg:max-w-[250px] text-ellipsis overflow-hidden whitespace-nowrap">
+        {row.original.title || "Untitled"}
+      </div>
+    ),
   },
   {
     accessorKey: "coverImage",
