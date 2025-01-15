@@ -1,12 +1,15 @@
 import { Project } from "@/types";
-import axios from "axios";
 
-const URL = `${
-  process.env.NEXT_PUBLIC_API_URL! || "http://localhost:3000"
-}/api/projects`;
+const URL = `${process.env.NEXT_PUBLIC_API_URL!}/api/projects`;
 
 export const getProjects = async (): Promise<Project[]> => {
-  const res = await axios.get(`${URL}`);
+  const res = await fetch(`${URL}`, {
+    next: { revalidate: 3600 }, // Revalidate every hour (3600 seconds)
+  });
 
-  return res.data;
+  if (!res.ok) {
+    throw new Error("Failed to fetch projects");
+  }
+
+  return res.json();
 };
